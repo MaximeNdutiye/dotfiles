@@ -1,0 +1,19 @@
+{
+  "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
+  "workbench.colorTheme": "Horizon Bold",
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "all",
+  "files.trimTrailingWhitespace": true,
+  "workbench.editor.enablePreview": false,
+  "window.zoomLevel": 0,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.scrollBeyondLastLine": false,
+  "editor.renderControlCharacters": false,
+  "ruby.lint": {
+    "robocop": true
+  },
+  "ruby.intellisense": "rubyLocate",
+  "ruby.useLanguageServer": true
+}
