@@ -4,8 +4,8 @@
 if [[ -f /opt/dev/dev.sh ]]; then source /opt/dev/dev.sh; fi
 
 # start tmux
-if [[ $TERM != "screen" && ! $TMUX ]]; then
-    tmux
+if command -v tmux>/dev/null; then
+ [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && tmux
 fi
 
 # Path to your oh-my-zsh installation.
@@ -35,20 +35,21 @@ alias checkcode="yarn run eslint && yarn run tsc && rubocop"
 # alias gpa="git pull --strategy-option $1 origin $2"
 
 # Kubectl commands
-alias getpods="kubectl get pods --namespace=identity-staging"
+#alias getpods="kubectl get pods --namespace=identity-staging"
 
-gwl() { kubectl logs "$1" web -n identity-staging; }
-grl() { kubectl logs "$1" rails -n identity-staging; }
-gnl() { kubectl logs "$1" nginx -n identity-staging }
-gjl() { kubectl logs "$1" -n identity-staging; }
+# gwl() { kubectl logs "$1" web -n identity-staging; }
+# grl() { kubectl logs "$1" rails -n identity-staging; }
+# gnl() { kubectl logs "$1" nginx -n identity-staging }
+# gjl() { kubectl logs "$1" -n identity-staging; }
 
-alias create_db_snapshot="./script/db_snapshot dump"
-alias amr="./script/db_snapshot load && dev u && dev s"
+# alias create_db_snapshot="./script/db_snapshot dump"
+# alias amr="./script/db_snapshot load && dev u && dev s"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# default ZSH_THEME="robbyrussell"
+ZSH_THEME="af-magic"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -104,6 +105,8 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+ZSH_DISABLE_COMPFIX=true
+
 source $ZSH/oh-my-zsh.sh
 #eval "$(rbenv init -)"
 
@@ -115,11 +118,12 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+  export VISUAL='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -140,4 +144,7 @@ source $ZSH/oh-my-zsh.sh
 
 # cloudplatform: add Shopify clusters to your local kubernetes config
 export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}/Users/maximendutiye/.kube/config:/Users/maximendutiye/.kube/config.shopify.cloudplatform
-if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+
+# if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+
+
