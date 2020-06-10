@@ -16,14 +16,9 @@ export ZSH="/Users/maximendutiye/.oh-my-zsh"
 # Neovim: nvim -> nv
 alias nv="nvim"
 
-# git aliases
+# GIT ALIASES
 alias gitlog="git log --all --decorate --oneline --graph"
 alias gitdiffm="git fetch origin master && git diff origin/master"
-
-# Check for errors with code
-alias yarncheck="yarn run eslint && yarn run tsc"
-alias yarnfix="yarn run eslint --fix"
-alias checkcode="yarn run eslint && yarn run tsc && rubocop"
 
 # GIT PULL REBASE AUTO
 # Rebase with automatic corrections
@@ -146,5 +141,3 @@ fi
 export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}/Users/maximendutiye/.kube/config:/Users/maximendutiye/.kube/config.shopify.cloudplatform
 
 # if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
-
-
