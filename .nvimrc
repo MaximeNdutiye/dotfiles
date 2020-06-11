@@ -1,3 +1,7 @@
+" YOU WILL NEED TO DO THIS FOR PLUGINS TO WORK
+"curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ackprg = 'ag --vimgrep'
 
