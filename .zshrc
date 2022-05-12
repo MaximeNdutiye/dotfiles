@@ -43,7 +43,6 @@ alias gitdiffm="git fetch origin master && git diff origin/master"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# default ZSH_THEME="robbyrussell"
 ZSH_THEME="af-magic"
 
 # Set list of themes to pick from when loading at random
@@ -134,10 +133,10 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+export PATH=/opt/homebrew/bin:$PATH
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Remove computer name form terminal
+#export PS1=">> "
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
 
-# cloudplatform: add Shopify clusters to your local kubernetes config
-export KUBECONFIG=${KUBECONFIG:+$KUBECONFIG:}/Users/maximendutiye/.kube/config:/Users/maximendutiye/.kube/config.shopify.cloudplatform
-
-# if [ /usr/local/bin/kubectl ]; then source <(kubectl completion zsh); fi
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
