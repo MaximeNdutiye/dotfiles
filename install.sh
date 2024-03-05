@@ -9,7 +9,7 @@ colors
 # and that you don't want to follow you across environments.
 touch ~/extra.zsh
 
-DOTFILES_DIRECTORY_NAME=$([ $SPIN ] && echo "shopify-dotfiles" || echo "dotfiles")
+DOTFILES_DIRECTORY_NAME=$("dotfiles")
 ZSH_HOST_OS=$(uname | awk '{print tolower($0)}')
 
 case $ZSH_HOST_OS in
