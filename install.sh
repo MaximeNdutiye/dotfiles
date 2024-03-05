@@ -9,7 +9,7 @@ colors
 # and that you don't want to follow you across environments.
 touch ~/extra.zsh
 
-DOTFILES_DIRECTORY_NAME=$("dotfiles")
+DOTFILES_DIRECTORY_NAME="dotfiles"
 ZSH_HOST_OS=$(uname | awk '{print tolower($0)}')
 
 case $ZSH_HOST_OS in
@@ -47,3 +47,4 @@ ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitignore_global ~/.gitignore_
 ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/.zshrc ~/.zshrc
 
 source ~/$DOTFILES_DIRECTORY_NAME/personal/install.sh
+source ~/.zshrc
