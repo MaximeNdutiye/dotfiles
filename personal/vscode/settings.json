@@ -1,19 +1,113 @@
 {
-  "vscode-neovim.neovimPath": "/usr/local/bin/nvim",
-  "workbench.colorTheme": "Horizon Bold",
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "editor.minimap.enabled": false,
   "editor.renderWhitespace": "all",
   "files.trimTrailingWhitespace": true,
   "workbench.editor.enablePreview": false,
-  "window.zoomLevel": 0,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.scrollBeyondLastLine": false,
   "editor.renderControlCharacters": false,
-  "ruby.lint": {
-    "robocop": true
+  "files.maxMemoryForLargeFilesMB": 6096,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
   },
-  "ruby.intellisense": "rubyLocate",
-  "ruby.useLanguageServer": true
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vscode-neovim.mouseSelectionStartVisualMode": true,
+  "workbench.editor.showTabs": "multiple",
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "java.project.importOnFirstTimeStartup": "automatic",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "gitlens.defaultDateStyle": "absolute",
+  "gitlens.defaultDateLocale": null,
+  "editor.inlineSuggest.enabled": true,
+  "vscode-neovim.revealCursorScrollLine": true,
+  "settingsSync.ignoredExtensions": ["asvetliakov.vscode-neovim"],
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp",
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.formatOnType": true,
+    "editor.tabSize": 2,
+    "editor.semanticHighlighting.enabled": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "editor.rulers": [120]
+  },
+  "byesig.fold": false,
+  "byesig.enabled": true,
+  "byesig.opacity": 0.5,
+  "byesig.showIcon": false,
+  "files.insertFinalNewline": true,
+  "sorbet.enabled": true,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "go.toolsManagement.autoUpdate": true,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+    "yaml": true
+  },
+  "githubPullRequests.pullBranch": "never",
+  "git.mergeEditor": false,
+  "githubPullRequests.queries": [
+
+    {
+      "label": "Checkout Performance Board",
+      "query": "is:open project:Shopify/2379"
+    },
+    {
+      "label": "Checkout Performance Team",
+      "query": "is:open team-review-requested:Shopify/checkout-performance"
+    },
+    {
+      "label": "Purchase Order Serialization Board",
+      "query": "is:open project:Shopify/8659"
+    },
+    {
+      "label": "Waiting For My Review",
+      "query": "is:open review-requested:${user}"
+    },
+    {
+      "label": "Assigned To Me",
+      "query": "is:open assignee:${user}"
+    },
+    {
+      "label": "Created By Me",
+      "query": "is:open author:${user}"
+    }
+  ],
+  "editor.fontFamily": "SF Mono, Menlo, Monaco, 'Courier New', monospace",
+  "shopifyGlobal.mysqlEditor": "external",
+  "editor.hover.delay": 150,
+  "editor.rulers": [120],
+  "workbench.editorAssociations": {
+    "git-rebase-todo": "default"
+  },
+  "terminal.integrated.enableMultiLinePasteWarning": false,
+  "remote.SSH.remotePlatform": {
+    "direct.shopify-jkeh.maxime-ndutiye.us.spin.dev": "linux"
+  },
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "vscode-neovim.completionDelay": 500,
+  "editor.formatOnSaveMode": "file",
+  "remote.SSH.connectTimeout": 150,
+  "window.autoDetectColorScheme": true,
+  "workbench.colorTheme": "Default Light Modern"
 }
