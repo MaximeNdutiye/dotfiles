@@ -22,7 +22,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "java.project.importOnFirstTimeStartup": "automatic",
   "files.exclude": {
     "**/.classpath": true,
     "**/.project": true,
@@ -47,10 +46,6 @@
     "files.trimFinalNewlines": true,
     "editor.rulers": [120]
   },
-  "byesig.fold": false,
-  "byesig.enabled": true,
-  "byesig.opacity": 0.5,
-  "byesig.showIcon": false,
   "files.insertFinalNewline": true,
   "sorbet.enabled": true,
   "editor.unicodeHighlight.ambiguousCharacters": false,
@@ -108,6 +103,9 @@
   "vscode-neovim.completionDelay": 500,
   "editor.formatOnSaveMode": "file",
   "remote.SSH.connectTimeout": 150,
+  "githubPullRequests.terminalLinksHandler": "github",
+  "workbench.preferredLightColorTheme": "GitHub Light",
   "window.autoDetectColorScheme": true,
-  "workbench.colorTheme": "Default Light Modern"
+  "workbench.colorTheme": "GitHub Light"
 }
+
