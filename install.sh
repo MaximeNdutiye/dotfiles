@@ -45,6 +45,8 @@ ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitignore_global ~/.gitignore_
 # updated, the terminal will pick up the new version on reload without having to run
 # install again. This will overwrite any existing .zshrc.
 ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/.zshrc ~/.zshrc
+ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.conf ~/.tmux.conf
+ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.reset.conf ~/.tmux.reset.conf
 
 source ~/$DOTFILES_DIRECTORY_NAME/personal/install.sh
 source ~/.zshrc
