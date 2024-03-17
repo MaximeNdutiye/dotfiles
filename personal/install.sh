@@ -10,4 +10,4 @@ mv ~/.cache/nvim ~/.cache/nvim.bak
 
 git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
 
-mv $DOTFILES_DIRECTORY_NAME/personal/nvim/user ~/.config/nvim/
+ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/personal/nvim/user ~/.config/nvim/
