@@ -11,6 +11,10 @@
 # You can read more in https://github.com/zsh-users/antigen/wiki/Commands#antigen-theme for info on how to define
 # custom caching keys for different environments, if you desire that. The cache speeds up your terminal startup, so
 # try to avoid disabling the cache unless you have no other choice.
+ANTIGEN_LOG=~/$DOTFILES_DIRECTORY_NAME/antigen_log
 
 # Staples theme: https://github.com/dersam/staples
 antigen theme MaximeNdutiye/dotfiles themes/af-magic
+
+# zsh autocomplete
+antigen bundle marlonrichert/zsh-autocomplete --branch=main
