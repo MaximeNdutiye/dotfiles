@@ -7,7 +7,7 @@ return {
       desc = "Code Action",
     },
     ["<leader>tr"] = {
-      "<cmd>Telescope resume",
+      "<cmd>Telescope resume<cr>",
       desc = "Telescope Resume"
     }
   },
