@@ -4,7 +4,7 @@ return {
     return {
       defaults = {
         preview = false,
-      }
+      },
     }
   end,
 }
