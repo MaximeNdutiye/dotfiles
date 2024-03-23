@@ -5,6 +5,17 @@
 
 #### ALIASES #####
 
+set_env_based_on_directory() {
+    # Uses alternative git global config when not interacting with shopify repos.
+    if [[ "$PWD" =~ "^/Users/$USER/*" ]] && ! [[ "$PWD" =~ "^/Users/$USER/src/*" ]] ; then
+        export GIT_CONFIG_GLOBAL=~/.gitconfig-pers
+    else
+        export GIT_CONFIG_GLOBAL=~/.gitconfig
+    fi
+}
+
+precmd_functions+=(set_env_based_on_directory)
+
 # Neovim: nvim -> nv
 alias nv="nvim"
 
@@ -14,9 +25,9 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
   export EDITOR='nvim'
   export VISUAL='nvim'
-fi
 
-# Launch tmux
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux
+  # Launch tmux
+  if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    exec tmux
+  fi
 fi

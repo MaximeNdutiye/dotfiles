@@ -17,8 +17,12 @@ case $ZSH_HOST_OS in
 
   BREW_EXECUTABLE=/opt/homebrew/bin/brew
 
-  $BREW_EXECUTABLE shellenv > $HOME/.dotfile_brew_setup
-  $BREW_EXECUTABLE install coreutils
+  if [ ! -d $BREW_EXECUTABLE ]
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    $BREW_EXECUTABLE shellenv > $HOME/.dotfile_brew_setup
+    $BREW_EXECUTABLE install coreutils
+  end
 ;;
 esac
 
@@ -38,7 +42,7 @@ fi
 # Symlink core configs
 
 # Link in the custom gitconfig.
-ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitconfig ~/.gitconfig
+ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitconfig ~/.gitconfig-pers
 ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitignore_global ~/.gitignore_global
 
 # Symlink this repo's .zshrc to ~/.zshrc. Using a symlink ensures that when the repo is
