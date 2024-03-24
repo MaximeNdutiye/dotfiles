@@ -1,5 +1,3 @@
-~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitconfig ~/.gitconfig-pers
-~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitignore_global ~/.gitignore_global
 ~/$DOTFILES_DIRECTORY_NAME/.zshrc ~/.zshrc
 ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.conf ~/.tmux.conf
 ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.reset.conf ~/.tmux.reset.conf
