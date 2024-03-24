@@ -1,0 +1,5 @@
+chruby
+coreutils
+reattach-to-user-namespace
+rg
+ruby-install

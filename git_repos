@@ -1,0 +1,3 @@
+https://github.com/AstroNvim/AstroNvim $HOME/.config/nvim
+https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+https://github.com/zsh-users/antigen $HOME/antigen

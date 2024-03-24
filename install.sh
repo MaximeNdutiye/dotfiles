@@ -10,47 +10,60 @@ colors
 touch ~/extra.zsh
 
 DOTFILES_DIRECTORY_NAME="dotfiles"
+
+export DF_HOME=~/$DOTFILES_DIRECTORY_NAME
+export DF_CORE=$DF_HOME/core
+export DF_USER=$DF_HOME/personal
+
+SYMLINKS_FILE=$DF_HOME/symlink_paths
+HOMEBREW_PACKAGES_FILE=$DF_HOME/homebrew_packages
+GIT_REPOS_FILE=$DF_HOME/git_repos
 ZSH_HOST_OS=$(uname | awk '{print tolower($0)}')
 
 case $ZSH_HOST_OS in
   darwin*)
 
-  BREW_EXECUTABLE=/opt/homebrew/bin/brew
-
-  if [ ! -d $BREW_EXECUTABLE ]
+  if ! command -v brew &>/dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi  
 
-    $BREW_EXECUTABLE shellenv > $HOME/.dotfile_brew_setup
-    $BREW_EXECUTABLE install coreutils
-  end
+  echo "\nInstalling homebrew packages\n"
+  # Install homebrew packages
+  while IFS= read -r homebrew_package_to_install; do
+      if brew list "$homebrew_package_to_install" &>/dev/null; then
+          echo "$homebrew_package_to_install is already installed"
+      else
+          brew install "$homebrew_package_to_install" 
+      fi
+  done < "$HOMEBREW_PACKAGES_FILE"
 ;;
 esac
-
-# Install the antigen plugin/theme manager if it's not already installed.
-if [[ ! -d $HOME/antigen ]]; then
-	echo -e "Antigen not found, installing..."
-	cd $HOME
-	git clone https://github.com/zsh-users/antigen.git
-	cd -
-fi
 
 if [ $SPIN ]; then
   # Install Ripgrep for better code searching: `rg <string>` to search. Obeys .gitignore
   sudo apt-get install -y ripgrep
 fi
 
-# Symlink core configs
+echo "\nCloning git repos\n"
+# Clone git repos
+while IFS= read -r git_repo_and_target_path; do
+    repo_url=$(echo "$git_repo_and_target_path" | cut -d' ' -f1)
+    # we need to do this so it expends them correctly
+    eval target_clone_path=$(echo "$git_repo_and_target_path" | cut -d' ' -f2)
 
-# Link in the custom gitconfig.
-ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitconfig ~/.gitconfig-pers
-ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/core/configs/.gitignore_global ~/.gitignore_global
+    if [ ! -d $target_clone_path ]; then
+      echo "Cloning $repo_url $target_clone_path"
+      git clone --depth 1 "$repo_url" $target_clone_path
+    fi 
+done < "$GIT_REPOS_FILE"
 
-# Symlink this repo's .zshrc to ~/.zshrc. Using a symlink ensures that when the repo is
-# updated, the terminal will pick up the new version on reload without having to run
-# install again. This will overwrite any existing .zshrc.
-ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/.zshrc ~/.zshrc
-ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.conf ~/.tmux.conf
-ln -vsfn ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.reset.conf ~/.tmux.reset.conf
+# Set up symlinks --needs to happen last--
+echo "\nSetting up symlinks\n"
+while IFS= read -r symlink_path; do
+    eval source_path=$(echo "$symlink_path" | cut -d' ' -f1)
+    eval target_path=$(echo "$symlink_path" | cut -d' ' -f2)
 
-source ~/$DOTFILES_DIRECTORY_NAME/personal/install.sh
+    ln -vsfn $source_path $target_path
+done < "$SYMLINKS_FILE"
+
 source ~/.zshrc
