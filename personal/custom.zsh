@@ -12,7 +12,7 @@ set_env_based_on_directory() {
         export GIT_IGNORE_GLOBAL=$DF_HOME/configs/.gitignore_blobal
     else
         export GIT_CONFIG_GLOBAL=~/.gitconfig
-        export GIT_CONFIG_GLOBAL=~/.gitignore_global
+        export GIT_IGNORE_GLOBAL=~/.gitignore_global
     fi
 }
 
