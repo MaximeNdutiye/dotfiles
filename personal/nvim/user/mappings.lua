@@ -1,4 +1,6 @@
 local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
+local telescope_cycle = require "user/config/telescope-cycle"
+local telescope_builtin = require "telescope.builtin"
 
 -- Repeat movement with ; and ,
 -- ensure ; goes forward and , goes backward regardless of the last direction
@@ -15,57 +17,38 @@ vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
 vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
 vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 
-local telescope_builtin = require "telescope.builtin"
-local telescope_state = require "telescope.actions.state"
-
-function cycle_my_picker(...)
-  -- create a new cycle picker with the given pickers to cycle trough
-  local pickers = { ... }
-  if #pickers == 0 then
-    pickers = {
-      telescope_builtin.find_files,
-      telescope_builtin.live_grep,
-      telescope_builtin.grep_string,
-      telescope_builtin.buffers,
-    }
-  end
-
-  -- although lua tables are indexed from 1 one start with 0 because it is
-  -- easier to do the modulo stuff 0 based and just add 1 when accessing the
-  -- table.
-  local index = 0
-
-  -- the picker object we will return
-  local cycle = {}
-  function cycle.cycle(step)
-    step = step or 1
-    index = (index + step) % #pickers
-    pickers[index + 1] { default_text = telescope_state.get_current_line() }
-  end
-
-  function cycle.next() cycle.cycle(1) end
-
-  function cycle.previous() cycle.cycle(-1) end
-
-  -- return a dynamically created cycle picker with the given pickers
-  return setmetatable(cycle, {
-    __call = function(opts)
-      index = 0
-      pickers[index + 1](opts)
-    end
-  })
-end
-
-local cycle = cycle_my_picker(
+local cycle = telescope_cycle(
   function()
     local sorter = require 'telescope.config'.values.file_sorter()
-    require 'telescope'.extensions.frecency.frecency { sorter = sorter }
+    require 'telescope'.extensions.frecency.frecency {
+      sorter = sorter,
+      search_dirs = { vim.fn.finddir('.git/..', vim.fn.expand('%:p:h') .. ";") }
+    }
   end,
   telescope_builtin.find_files,
   telescope_builtin.live_grep,
   telescope_builtin.grep_string,
   telescope_builtin.buffers
 )
+
+local function readConfigFile(file)
+  if not file then
+    return nil
+  end
+
+  local configTable = {}
+  for line in file:lines() do
+    local quotedString = line:match('"([^"]+)"')
+    if quotedString then
+      table.insert(configTable, quotedString)
+    end
+  end
+
+  file:close()
+  return configTable
+end
+
+local shopify_test_search_dirs = readConfigFile(io.open(os.getenv("HOME") .. "/dotfiles/configs/core_tests", "r"))
 
 return {
   n = {
@@ -79,7 +62,7 @@ return {
       "<cmd>Telescope resume<cr>",
       desc = "Telescope Resume"
     },
-    ["<leader>fq"] = {
+    ["<leader><leader>ff"] = {
       function()
         vim.lsp.buf.format()
       end,
@@ -94,6 +77,27 @@ return {
         require("telescope").extensions.frecency.frecency {}
       end,
       desc = "Find with frecency"
+    },
+    ["<leader>D"] = {
+      function()
+        vim.lsp.buf.type_definition()
+      end,
+      desc = "Go to type definition"
+    },
+    ["<leader>rt"] = {
+      function()
+        local file_name = vim.fn.expand('%:t:r')
+        telescope_builtin.find_files({ default_text = file_name, search_dirs = shopify_test_search_dirs })
+      end,
+      desc = "Find ruby test files in shopify/shopify"
+    },
+    ["<leader>tt"] = {
+      "<cmd>ToggleTerm<cr>",
+      desc = "Toggle terminal"
+    },
+    ["<leader>ts"] = {
+      "<cmd>TermSelect<cr>",
+      desc = "Select terminal"
     }
   },
   i = {
@@ -103,5 +107,11 @@ return {
       end,
       desc = "telescope cycle pickers"
     },
+  },
+  t = {
+    ["<esc>"] = {
+      [[<C-\><C-n>]],
+      desc = "esc to exit term in term mode"
+    }
   }
 }
