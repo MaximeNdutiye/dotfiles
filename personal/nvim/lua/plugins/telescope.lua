@@ -4,10 +4,15 @@ return {
     return {
       defaults = {
         preview = false,
+        file_ignore_patterns = { ".git/", "/tmp/", "node_modules/", "sorbet/" },
       },
       pickers = {
         find_files = {
           hidden = true
+        },
+        oldfiles = {
+          sort_lastused = true,
+          cwd_only = true,
         },
       },
       extensions = {

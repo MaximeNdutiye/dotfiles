@@ -3,3 +3,4 @@ coreutils
 reattach-to-user-namespace
 rg
 ruby-install
+--cask visual-studio-code

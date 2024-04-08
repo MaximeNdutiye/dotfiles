@@ -3,7 +3,7 @@ return {
   event = { 'BufReadPre', 'BufReadPost', 'BufNewFile' },
   config = function()
     local lspconfig = require('lspconfig')
-    local ruby_ls = require("user/config/ruby_ls")
+    local ruby_ls = require("config/ruby_ls")
 
     lspconfig.ruby_ls.setup({
       on_attach = function(client, buffer)
