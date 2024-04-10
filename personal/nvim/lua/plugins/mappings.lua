@@ -98,7 +98,7 @@ return {
           ["<Leader>rt"] = {
             function()
               local file_name = vim.fn.expand('%:t:r')
-              telescope_builtin.find_files({ default_text = file_name, search_dirs = shopify_test_search_dirs })
+              telescope_builtin.find_files({ default_text = "test/"..file_name, search_dirs = shopify_test_search_dirs })
             end,
             desc = "Find ruby test files in shopify/shopify"
           },

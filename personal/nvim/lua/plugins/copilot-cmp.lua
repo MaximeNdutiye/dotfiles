@@ -1,6 +1,7 @@
 return {
   "zbirenbaum/copilot-cmp",
   dependencies = "copilot.lua",
+  lazy = true,
   opts = {
     sources = {
       -- Copilot Source

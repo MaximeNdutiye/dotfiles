@@ -3,6 +3,7 @@ return {
   cmd = "Copilot",
   -- this prevents copilot from loading
   -- event = "InsertEnter",
+  lazy = true,
   config = function()
     require("copilot").setup({
       suggestion = { enabled = false },
