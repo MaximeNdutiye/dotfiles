@@ -89,6 +89,9 @@
 	# Shopify prefers to rebase, so this will require you to decide if a rebase is necessary.
 	ff = only
 
+[push]
+	autoSetupRemoet = true
+
 [rerere]
 	# https://git-scm.com/docs/git-rerere
 	# Reuse Recorded Resolution
