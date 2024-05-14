@@ -5,6 +5,11 @@ return {
     terminal_mappings = false,
   },
   config = function()
-    require("toggleterm").setup()
+    require("toggleterm").setup(
+      {
+        shade_terminals = false,
+        shading_factor = -3
+      }
+    )
   end
 }

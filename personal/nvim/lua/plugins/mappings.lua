@@ -50,29 +50,6 @@ end
 
 local shopify_test_search_dirs = readConfigFile(io.open(os.getenv("HOME") .. "/dotfiles/configs/core_tests", "r"))
 
-local function live_grep_from_project_git_root()
-	local function is_git_repo()
-		vim.fn.system("git rev-parse --is-inside-work-tree")
-
-		return vim.v.shell_error == 0
-	end
-
-	local function get_git_root()
-		local dot_git_path = vim.fn.finddir(".git", ".;")
-		return vim.fn.fnamemodify(dot_git_path, ":h")
-	end
-
-	local opts = {}
-
-	if is_git_repo() then
-		opts = {
-			cwd = get_git_root(),
-		}
-	end
-
-	require("telescope.builtin").live_grep(opts)
-end
-
 return {
   {
     "AstroNvim/astrocore",
@@ -118,12 +95,20 @@ return {
             end,
             desc = "Pick to close",
           },
-          ["fw"] = {
-            function ()
-              live_grep_from_project_git_root()
+          ["<Leader>qo"] = {
+            "<cmd>copen<cr>",
+            desc = "open quick fix window"
+          },
+          ["<Leader>fg"] = {
+            function()
+              require("telescope").extensions.live_grep_args.live_grep_args()
             end,
-            desc = "live grep from project root",
-          }
+            desc = "Telescope live grep with args"
+          },
+          ["ts"] = {
+            "<cmd>TermSelect<cr>",
+            desc  = "Toggleterm term select"
+          },
         },
         i = {
           ["<C-k>"] = {
