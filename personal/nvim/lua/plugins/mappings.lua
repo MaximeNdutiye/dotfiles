@@ -83,10 +83,6 @@ return {
             "<cmd>ToggleTerm<cr>",
             desc = "Toggle terminal"
           },
-          ["<Leader>ts"] = {
-            "<cmd>TermSelect<cr>",
-            desc = "Select terminal"
-          },
           ["<Leader>bD"] = {
             function()
               require("astroui.status.heirline").buffer_picker(
@@ -106,8 +102,8 @@ return {
             desc = "Telescope live grep with args"
           },
           ["ts"] = {
-            "<cmd>TermSelect<cr>",
-            desc  = "Toggleterm term select"
+            "<cmd>Telescope toggleterm_manager<cr>",
+            desc  = "Toggleterm manager"
           },
         },
         i = {
