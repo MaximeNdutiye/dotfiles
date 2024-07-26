@@ -105,6 +105,18 @@ return {
             "<cmd>Telescope toggleterm_manager<cr>",
             desc  = "Toggleterm manager"
           },
+          ["<Leader>afe"] = {
+            function()
+              vim.g.autoformat = true
+            end,
+            desc  = "Enable autoformat"
+          },
+          ["<Leader>afd"] = {
+            function()
+              vim.g.autoformat = false
+            end,
+            desc  = "Disable autoformat"
+          },
         },
         i = {
           ["<C-k>"] = {

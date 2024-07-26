@@ -5,6 +5,9 @@ return {
     ensure_installed = {
       "lua_ls",
       "sorbet",
+      "eslint",
+      "tsserver",
+      "ruby-lsp",
     },
   },
 }

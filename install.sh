@@ -12,12 +12,13 @@ touch ~/extra.zsh
 DOTFILES_DIRECTORY_NAME="dotfiles"
 
 export DF_HOME=~/$DOTFILES_DIRECTORY_NAME
-export DF_CORE=$DF_HOME/core
 export DF_USER=$DF_HOME/personal
+export DF_CORE=$DF_HOME/core
 
-SYMLINKS_FILE=$DF_HOME/symlink_paths
 HOMEBREW_PACKAGES_FILE=$DF_HOME/homebrew_packages
+SYMLINKS_FILE=$DF_HOME/symlink_paths
 GIT_REPOS_FILE=$DF_HOME/git_repos
+
 ZSH_HOST_OS=$(uname | awk '{print tolower($0)}')
 
 case $ZSH_HOST_OS in
@@ -46,8 +47,8 @@ if [ $SPIN ]; then
   sudo apt-get install -y ripgrep
 fi
 
-echo "\nCloning git repos\n"
 # Clone git repos
+echo "\nCloning git repos\n"
 while IFS= read -r git_repo_and_target_path; do
     repo_url=$(echo "$git_repo_and_target_path" | cut -d' ' -f1)
     # we need to do this so it expends them correctly
