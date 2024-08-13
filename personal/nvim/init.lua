@@ -17,5 +17,22 @@ end
 
 vim.cmd.packadd("cfilter")
 
+vim.api.nvim_set_keymap('v', '<C-c>', ':w !pbcopy<CR><CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-c>', '"cyy:let @+=@c<CR>', { noremap = true, silent = true })
+table.insert(vim._so_trails, "/?.dylib")
+
+vim.g.clipboard = {
+    name = 'spin',
+    copy = {
+        ['+'] = 'pbcopy',
+        ['*'] = 'pbcopy',
+    },
+    paste = {
+        ['+'] = 'pbpaste',
+        ['*'] = 'pbpaste',
+    },
+    cache_enabled = 1,
+}
+
 require "lazy_setup"
 require "polish"

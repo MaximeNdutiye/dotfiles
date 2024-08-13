@@ -7,7 +7,7 @@ return {
       "sorbet",
       "eslint",
       "tsserver",
-      "ruby-lsp",
+      "ruby_lsp",
     },
   },
 }
