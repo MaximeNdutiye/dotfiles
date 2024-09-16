@@ -9,7 +9,7 @@ set_env_based_on_directory() {
     # Uses alternative git global config when not interacting with shopify repos.
     if [[ "$PWD" =~ "^/Users/$USER/*" ]] && ! [[ "$PWD" =~ "^/Users/$USER/src/*" ]] ; then
         export GIT_CONFIG_GLOBAL=$DF_HOME/configs/.gitconfig
-        export GIT_IGNORE_GLOBAL=$DF_HOME/configs/.gitignore_blobal
+        export GIT_IGNORE_GLOBAL=$DF_HOME/configs/.gitignore_global
     else
         export GIT_CONFIG_GLOBAL=~/.gitconfig
         export GIT_IGNORE_GLOBAL=~/.gitignore_global
