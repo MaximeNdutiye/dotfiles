@@ -34,5 +34,9 @@ vim.g.clipboard = {
     cache_enabled = 1,
 }
 
+-- Runs asynchronously export OPENAI_API_KEY=$(dev cd openai-proxy && dev generate_token)
+-- vim.fn.system({"export", "OPENAI_API_KEY=$(dev cd openai-proxy && dev generate_token)"})
+-- os.execute("export OPENAI_API_KEY=$(dev cd openai-proxy && dev generate_token)")
+
 require "lazy_setup"
 require "polish"

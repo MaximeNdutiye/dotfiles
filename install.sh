@@ -26,7 +26,7 @@ case $ZSH_HOST_OS in
 
   if ! command -v brew &>/dev/null; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi  
+  fi
 
   echo "\nInstalling homebrew packages\n"
   # Install homebrew packages
@@ -34,7 +34,7 @@ case $ZSH_HOST_OS in
       if brew list "$homebrew_package_to_install" &>/dev/null; then
           echo "$homebrew_package_to_install is already installed"
       else
-          brew install "$homebrew_package_to_install" 
+          brew install "$homebrew_package_to_install"
       fi
   done < "$HOMEBREW_PACKAGES_FILE"
 ;;
@@ -48,17 +48,23 @@ if [ $SPIN ]; then
 fi
 
 # Clone git repos
-echo "\nCloning git repos\n"
-while IFS= read -r git_repo_and_target_path; do
-    repo_url=$(echo "$git_repo_and_target_path" | cut -d' ' -f1)
-    # we need to do this so it expends them correctly
-    eval target_clone_path=$(echo "$git_repo_and_target_path" | cut -d' ' -f2)
+# Function to clone git repositories from a given file
+clone_git_repos() {
+    local repos_file="$1"
+    echo "\nCloning git repos from $repos_file\n"
+    while IFS= read -r git_repo_and_target_path; do
+        repo_url=$(echo "$git_repo_and_target_path" | cut -d' ' -f1)
+        # We need to do this so it expands them correctly
+        eval target_clone_path=$(echo "$git_repo_and_target_path" | cut -d' ' -f2)
 
-    if [ ! -d $target_clone_path ]; then
-      echo "Cloning $repo_url $target_clone_path"
-      git clone --depth 1 "$repo_url" $target_clone_path
-    fi 
-done < "$GIT_REPOS_FILE"
+        if [ ! -d "$target_clone_path" ]; then
+            echo "Cloning $repo_url to $target_clone_path"
+            git clone --depth 1 "$repo_url" "$target_clone_path"
+        fi
+    done < "$repos_file"
+}
+
+clone_git_repos "$GIT_REPOS_FILE"
 
 # Set up symlinks --needs to happen last--
 echo "\nSetting up symlinks\n"

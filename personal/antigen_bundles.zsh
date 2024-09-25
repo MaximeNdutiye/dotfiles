@@ -13,8 +13,12 @@
 # try to avoid disabling the cache unless you have no other choice.
 ANTIGEN_LOG=~/$DOTFILES_DIRECTORY_NAME/antigen_log
 
-# Staples theme: https://github.com/dersam/staples
+# ZSH Theme
 antigen theme MaximeNdutiye/dotfiles themes/af-magic
 
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git-auto-fetch
+
 # zsh autocomplete
-antigen bundle marlonrichert/zsh-autocomplete --branch=main
+# This thing is so so slow. Constantly holds up my command prompt
+# antigen bundle marlonrichert/zsh-autocomplete --branch=main
