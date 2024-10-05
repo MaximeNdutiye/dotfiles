@@ -9,7 +9,7 @@ return {
     openai = {
       endpoint = "https://openai-proxy.shopify.ai/v3/v1",
       -- the shell command must prefixed with `^cmd:(.*)`
-      model = "claude-3-5-sonnet-20240620",
+      model = "anthropic:claude-3-5-sonnet",
       timeout = 30000, -- Timeout in milliseconds
       temperature = 0,
       max_tokens = 4096,

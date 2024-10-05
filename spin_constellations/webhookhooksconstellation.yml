@@ -1,0 +1,6 @@
+schema: v1
+extend: shopify
+isospin_version: 2
+repos:
+  - captain-hook
+  - online-store-web

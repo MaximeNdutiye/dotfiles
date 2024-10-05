@@ -1,0 +1,12 @@
+schema: v1
+isospin_version: 2
+extend: shopify:sp-payments-processing
+repos:
+  - customer-account-web
+  - checkout-web
+  - online-store-web
+  - identity
+  - customer-account-web:
+      env:
+        CUSTOMER_ACCOUNT_INIT_B2B: "1"
+

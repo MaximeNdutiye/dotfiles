@@ -18,6 +18,15 @@ set_env_based_on_directory() {
 
 precmd_functions+=(set_env_based_on_directory)
 
+set_openai_api_key(){
+    export OPENAI_API_KEY=$(
+    curl -i 'https://openai-proxy.shopify.io/hmac/team' \
+    -H 'accept: */*' \
+    -H 'content-type: application/json' \
+    -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+    --data-raw '{"team":1526,"project":39580,"repo":"shopify","environment":"dev"}' | sed -n '/^{/,/^}$/p' | jq -r '.key')
+}
+
 # Neovim: nvim -> nv
 alias nv="nvim"
 
@@ -28,8 +37,10 @@ else
   export EDITOR='nvim'
   export VISUAL='nvim'
 
+  set_openai_api_key > /dev/null 2>&1
+  
   # Launch tmux
-  # if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  #   exec tmux
-  # fi
+  if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    exec tmux
+  fi
 fi
