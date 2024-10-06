@@ -19,12 +19,29 @@ set_env_based_on_directory() {
 precmd_functions+=(set_env_based_on_directory)
 
 set_openai_api_key(){
-    export OPENAI_API_KEY=$(
-    curl -i 'https://openai-proxy.shopify.io/hmac/team' \
+    local curl_output
+    local curl_exit_code
+    local bearer_token
+
+    if ! bearer_token=$(gcloud auth print-identity-token 2>&1); then
+        echo "Error in set_openai_api_key: gcloud auth failed" >&2
+        echo "gcloud output: $bearer_token" >&2
+        return 1
+    fi
+
+    curl_output=$(curl -si 'https://openai-proxy.shopify.io/hmac/team' \
     -H 'accept: */*' \
     -H 'content-type: application/json' \
-    -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
-    --data-raw '{"team":1526,"project":39580,"repo":"shopify","environment":"dev"}' | sed -n '/^{/,/^}$/p' | jq -r '.key')
+    -H "Authorization: Bearer $bearer_token" \
+    --data-raw '{"team":1526,"project":39580,"repo":"shopify","environment":"dev"}' 2>&1)
+    curl_exit_code=$?
+
+    if [ $curl_exit_code -ne 0 ]; then
+        echo "Error in set_openai_api_key: curl command failed" >&2
+        echo "Curl output: $curl_output" >&2
+    else
+        export OPENAI_API_KEY=$(echo "$curl_output" | sed -n '/^{/,/^}$/p' | jq -r '.key')
+    fi
 }
 
 # Neovim: nvim -> nv
