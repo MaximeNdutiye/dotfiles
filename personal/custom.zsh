@@ -55,9 +55,12 @@ else
   export VISUAL='nvim'
 
   set_openai_api_key > /dev/null 2>&1
+ 
+  echo "checking if we can launch tmux"
   
   # Launch tmux
-  if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  if  [ -n "$TERM" ] && command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+    echo "launching tmux"
     exec tmux
   fi
 fi
