@@ -17,7 +17,10 @@ ANTIGEN_LOG=~/$DOTFILES_DIRECTORY_NAME/antigen_log
 antigen theme MaximeNdutiye/dotfiles themes/af-magic
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git-auto-fetch
+antigen bundles <<EOBUNDLES
+  git-auto-fetch
+  mafredri/zsh-async --branch=main
+EOBUNDLES
 
 # zsh autocomplete
 # This thing is so so slow. Constantly holds up my command prompt

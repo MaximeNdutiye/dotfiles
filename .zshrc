@@ -1,6 +1,7 @@
 # This script is run every time you log in. It's the entrypoint for all shell environment config.
 # Don't modify this file directly, or you'll remove your ability to update against new versions of
 # the dotfiles-starter-template
+zmodload zsh/zprof
 
 export DOTFILES_DIRECTORY_NAME="dotfiles"
 export DF_HOME=~/$DOTFILES_DIRECTORY_NAME
@@ -8,8 +9,8 @@ export DF_CORE=$DF_HOME/core
 export DF_USER=$DF_HOME/personal
 
 # Create common color functions.
-autoload -U colors
-colors
+# autoload -U colors
+# colors
 
 # Include the default Spin zshrc
 # This file has a number of useful functions for detecting the status of the Spin environment.
@@ -63,3 +64,8 @@ source ~/extra.zsh
 [[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
 
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+
+# Shopify Hydrogen alias to local projects
+alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
+
+zprof

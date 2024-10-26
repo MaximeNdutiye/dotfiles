@@ -3,6 +3,9 @@
 # Put anything here that you want to exist on all your environment, and to have the highest priority
 # over any other customization.
 
+# Load zsh-async library
+source ~/.antigen/bundles/mafredri/zsh-async-main/async.zsh
+
 #### ALIASES #####
 
 set_env_based_on_directory() {
@@ -40,7 +43,16 @@ set_openai_api_key(){
         echo "Error in set_openai_api_key: curl command failed" >&2
         echo "Curl output: $curl_output" >&2
     else
-        export OPENAI_API_KEY=$(echo "$curl_output" | sed -n '/^{/,/^}$/p' | jq -r '.key')
+        OPENAI_API_KEY=$(echo "$curl_output" | sed -n '/^{/,/^}$/p' | jq -r '.key')
+        export OPENAI_API_KEY
+    fi
+}
+
+set_openai_api_key_async_callback() {
+    if [[ -n $3 ]]; then
+        echo "Error in set_openai_api_key_async: $3" >&2
+    else
+        export OPENAI_API_KEY=$2
     fi
 }
 
@@ -54,13 +66,15 @@ else
   export EDITOR='nvim'
   export VISUAL='nvim'
 
-  set_openai_api_key > /dev/null 2>&1
+  # Set up async worker
+  async_init
+  async_start_worker openai_worker -n
+  async_job openai_worker set_openai_api_key
+  async_register_callback openai_worker set_openai_api_key_async_callback
  
-  echo "checking if we can launch tmux"
-  
   # Launch tmux
-  if  [ -n "$TERM" ] && command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-    echo "launching tmux"
-    exec tmux
-  fi
+  # if  [ -n "$TERM" ] && command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  #   echo "launching tmux"
+  #   exec tmux
+  # fi
 fi
