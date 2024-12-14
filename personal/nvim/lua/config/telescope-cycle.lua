@@ -34,6 +34,7 @@ return function(...)
   function cycle.previous() cycle.cycle(-1) end
 
   -- return a dynamically created cycle picker with the given pickers
+  -- we are creating a table that is callable
   return setmetatable(cycle, {
     __call = function(opts)
       index = 0

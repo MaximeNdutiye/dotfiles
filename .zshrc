@@ -1,7 +1,9 @@
 # This script is run every time you log in. It's the entrypoint for all shell environment config.
 # Don't modify this file directly, or you'll remove your ability to update against new versions of
 # the dotfiles-starter-template
-zmodload zsh/zprof
+
+# use this for profiling. Also uncomment the zprof line below 
+# zmodload zsh/zprof
 
 export DOTFILES_DIRECTORY_NAME="dotfiles"
 export DF_HOME=~/$DOTFILES_DIRECTORY_NAME
@@ -68,4 +70,5 @@ source ~/extra.zsh
 # Shopify Hydrogen alias to local projects
 alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
-zprof
+# use this for profiling
+# zprof

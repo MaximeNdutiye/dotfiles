@@ -66,13 +66,19 @@ clone_git_repos() {
 
 clone_git_repos "$GIT_REPOS_FILE"
 
-# Set up symlinks --needs to happen last--
-echo "\nSetting up symlinks\n"
-while IFS= read -r symlink_path; do
-    eval source_path=$(echo "$symlink_path" | cut -d' ' -f1)
-    eval target_path=$(echo "$symlink_path" | cut -d' ' -f2)
+# Function to set up symlinks
+setup_symlinks() {
+    local symlinks_file="$1"
+    echo "\nSetting up symlinks\n"
+    while IFS= read -r symlink_path; do
+        eval source_path=$(echo "$symlink_path" | cut -d' ' -f1)
+        eval target_path=$(echo "$symlink_path" | cut -d' ' -f2)
 
-    ln -vsfn $source_path $target_path
-done < "$SYMLINKS_FILE"
+        ln -vsfn "$source_path" "$target_path"
+    done < "$symlinks_file"
+}
+    
+# Set up symlinks --needs to happen last--
+setup_symlinks "$SYMLINKS_FILE"
 
 source ~/.zshrc

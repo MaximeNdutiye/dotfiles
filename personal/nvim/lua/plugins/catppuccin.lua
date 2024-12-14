@@ -2,11 +2,12 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy=false,
+    -- not sure why this is needed
+    -- lazy=false,
     config = function()
-      require("catppuccin").setup {
-        flavour = "mocha"
-      }
+      -- require("catppuccin").setup {
+      --   flavour = "mocha"
+      -- }
     end,
     priority = 1000
   },

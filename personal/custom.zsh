@@ -8,18 +8,19 @@ source ~/.antigen/bundles/mafredri/zsh-async-main/async.zsh
 
 #### ALIASES #####
 
-set_env_based_on_directory() {
-    # Uses alternative git global config when not interacting with shopify repos.
-    if [[ "$PWD" =~ "^/Users/$USER/*" ]] && ! [[ "$PWD" =~ "^/Users/$USER/src/*" ]] ; then
-        export GIT_CONFIG_GLOBAL=$DF_HOME/configs/.gitconfig
-        export GIT_IGNORE_GLOBAL=$DF_HOME/configs/.gitignore_global
-    else
-        export GIT_CONFIG_GLOBAL=~/.gitconfig
-        export GIT_IGNORE_GLOBAL=~/.gitignore_global
-    fi
-}
+# I can't remember why I did this
+# set_env_based_on_directory() {
+#     # Uses alternative git global config when not interacting with shopify repos.
+#     if [[ "$PWD" =~ "^/Users/$USER/*" ]] && ! [[ "$PWD" =~ "^/Users/$USER/src/*" ]] ; then
+#         export GIT_CONFIG_GLOBAL=$DF_HOME/configs/.gitconfig
+#         export GIT_IGNORE_GLOBAL=$DF_HOME/configs/.gitignore_global
+#     else
+#         export GIT_CONFIG_GLOBAL=~/.gitconfig
+#         export GIT_IGNORE_GLOBAL=~/.gitignore_global
+#     fi
+# }
 
-precmd_functions+=(set_env_based_on_directory)
+# precmd_functions+=(set_env_based_on_directory)
 
 set_openai_api_key(){
     local curl_output
