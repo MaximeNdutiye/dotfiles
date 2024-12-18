@@ -6,7 +6,7 @@ local telescope_builtin = require "telescope.builtin"
 local smart_splits = require "smart-splits"
 local notify = require "notify"
 local harpoon = require "harpoon"
-local DevTestRunner = require "config/dev-test-runner"
+local dev_test_runner = require "config/dev-test-runner"
 local telescope_utils = require "config/telescope-utils"
 
 -- Repeat movement with ; and ,
@@ -45,7 +45,7 @@ local augroup = vim.api.nvim_create_augroup("FindMatchingFile", { clear = true }
 -- Maybe allow for configuring this behaviour
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup,
-  callback = function() DevTestRunner.on_autocommand() end,
+  callback = function() dev_test_runner.on_autocommand() end,
   desc = "Find matching test file when opening a file",
 })
 
@@ -184,7 +184,7 @@ return {
           },
           ["<Leader>rt"] = {
             function()
-              DevTestRunner.open_test_or_source_file()
+              dev_test_runner.open_test_or_source_file()
             end,
             desc = "Find test files (Ruby)",
           },
