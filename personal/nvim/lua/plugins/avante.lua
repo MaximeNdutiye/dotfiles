@@ -19,12 +19,15 @@ return {
     behaviour = {
       auto_suggestions = false, -- Experimental stage
       auto_set_highlight_group = true,
-      auto_set_keymaps = false,
+      auto_set_keymaps = true,
       auto_apply_diff_after_generation = false,
       support_paste_from_clipboard = true,
     },
     mappings = {
-      --- @class AvanteConflictMappings
+      ask = "<leader>aa",
+      -- I don't use these, remote later
+      edit = "<leader>ae",
+      refresh = "<leader>ar",
       diff = {
         ours = "co",
         theirs = "ct",
@@ -56,6 +59,35 @@ return {
       },
     },
   },
+  -- keys: the list of keymaps will be extended with your custom keymaps
+  keys = function(_, keys)
+    ---@type avante.Config
+    local opts =
+      require("lazy.core.plugin").values(require("lazy.core.config").spec.plugins["avante.nvim"], "opts", false)
+
+    local mappings = {
+      {
+        opts.mappings.ask,
+        function() require("avante.api").ask() end,
+        desc = "avante: ask",
+        mode = { "n", "v" },
+      },
+      {
+        opts.mappings.refresh,
+        function() require("avante.api").refresh() end,
+        desc = "avante: refresh",
+        mode = "v",
+      },
+      {
+        opts.mappings.edit,
+        function() require("avante.api").edit() end,
+        desc = "avante: edit",
+        mode = { "n", "v" },
+      },
+    }
+    mappings = vim.tbl_filter(function(m) return m[1] and #m[1] > 0 end, mappings)
+    return vim.list_extend(mappings, keys)
+  end,
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",
   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows

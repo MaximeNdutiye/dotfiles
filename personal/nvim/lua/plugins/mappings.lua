@@ -6,7 +6,7 @@ local telescope_builtin = require "telescope.builtin"
 local smart_splits = require "smart-splits"
 local notify = require "notify"
 local harpoon = require "harpoon"
-local dev_test_runner = require "config/dev-test-runner"
+local DevTestRunner = require "config/dev-test-runner"
 local telescope_utils = require "config/telescope-utils"
 
 -- Repeat movement with ; and ,
@@ -42,11 +42,24 @@ local cycle = telescope_cycle(
 local augroup = vim.api.nvim_create_augroup("FindMatchingFile", { clear = true })
 
 -- Create an autocommand that calls find_first_matching_file when a file is opened
+-- Maybe allow for configuring this behaviour
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup,
-  callback = function() dev_test_runner.find_first_matching_file() end,
+  callback = function() DevTestRunner.on_autocommand() end,
   desc = "Find matching test file when opening a file",
 })
+
+-- Given a log file allows traversing the locations for where the logs were emitted
+-- When in a parsed log file file all the
+-- code.line_no and code.filepaths and open telescope with the results
+vim.api.nvim_create_user_command("TelescopeLogs", function()
+  local telescope_entries = telescope_utils.toggle_telescope_with_log_file_code_locations()
+
+  if telescope_entries == nil then return notify "No results" end
+  if #telescope_entries == 0 then return notify "Empty" end
+
+  telescope_utils.toggle_telescope(telescope_entries)
+end, {})
 
 return {
   {
@@ -56,6 +69,29 @@ return {
       mappings = {
         -- first key is the mode
         n = {
+          -- I want to be able to press 1,2,3,4,5, etc in normal mode to go to the buffer
+          ["<Leader>ro"] = {
+            function()
+              local command = string.format "set_openai_api_key"
+
+              vim.fn.jobstart(command, {
+                stdout_buffered = true,
+                on_stdout = function(_, data)
+                  if data then
+                    vim.schedule(function() notify(vim.inspect(data), vim.log.levels.ERROR) end)
+                  else
+                    vim.schedule(function() notify("no data", vim.log.levels.ERROR) end)
+                  end
+                end,
+                on_exit = function(_, exit_code)
+                  if exit_code ~= 0 then
+                    vim.schedule(function() notify("Exit code not 0", vim.log.levels.ERROR) end)
+                  end
+                end,
+              })
+            end,
+            desc = "Telescope Resume",
+          },
           ["<Leader>tr"] = {
             "<cmd>Telescope resume<cr>",
             desc = "Telescope Resume",
@@ -65,17 +101,19 @@ return {
             desc = "Vim test test nearest",
           },
           -- ["<Leader>hl"] = {
-          --   function() telescope_utils.toggle_telescope(harpoon:list()) end,
+          --   function()
+          --   telescope_utils.toggle_telescope(harpoon:list())
+          --   end,
           --   desc = "Toggle telescope harpoon",
           -- },
           -- ["<Leader>ah"] = {
           --   function() harpoon:list():add() end,
           --   desc = "Harpoon add",
           -- },
-          ["<Leader>aa"] = {
-            "<cmd>AvanteAsk<cr>",
-            desc = "Toggle Avante Ask",
-          },
+          -- ["<Leader>aa"] = {
+          --   "<cmd>AvanteAsk<cr>",
+          --   desc = "Toggle Avante Ask",
+          -- },
           ["<A-h>"] = {
             function() smart_splits.resize_left() end,
             desc = "Resize split left",
@@ -144,12 +182,11 @@ return {
             function() require("telescope").extensions.frecency.frecency {} end,
             desc = "Find with frecency",
           },
-          -- need a version of this for find source file from test file
           ["<Leader>rt"] = {
             function()
-              dev_test_runner.open_test_file()
+              DevTestRunner.open_test_or_source_file()
             end,
-            desc = "Find ruby test files in shopify/shopify",
+            desc = "Find test files (Ruby)",
           },
           ["<Leader>tt"] = {
             "<cmd>ToggleTerm<cr>",
