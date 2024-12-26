@@ -1,28 +1,15 @@
-# Define any custom environment scripts here.
+# Custom environment scripts
 # This file is loaded after everything else, but before Antigen is applied and ~/extra.zsh sourced.
-# Put anything here that you want to exist on all your environment, and to have the highest priority
+# Put anything here that you want to exist on all your environments, and to have the highest priority
 # over any other customization.
 
 # Load zsh-async library
 source ~/.antigen/bundles/mafredri/zsh-async-main/async.zsh
 
-#### ALIASES #####
+#### FUNCTIONS ####
 
-# I can't remember why I did this
-# set_env_based_on_directory() {
-#     # Uses alternative git global config when not interacting with shopify repos.
-#     if [[ "$PWD" =~ "^/Users/$USER/*" ]] && ! [[ "$PWD" =~ "^/Users/$USER/src/*" ]] ; then
-#         export GIT_CONFIG_GLOBAL=$DF_HOME/configs/.gitconfig
-#         export GIT_IGNORE_GLOBAL=$DF_HOME/configs/.gitignore_global
-#     else
-#         export GIT_CONFIG_GLOBAL=~/.gitconfig
-#         export GIT_IGNORE_GLOBAL=~/.gitignore_global
-#     fi
-# }
-
-# precmd_functions+=(set_env_based_on_directory)
-
-set_openai_api_key(){
+# Set AI Proxy API key
+set_openai_api_key() {
     local curl_output
     local curl_exit_code
     local bearer_token
@@ -44,38 +31,38 @@ set_openai_api_key(){
         echo "Error in set_openai_api_key: curl command failed" >&2
         echo "Curl output: $curl_output" >&2
     else
-        OPENAI_API_KEY=$(echo "$curl_output" | sed -n '/^{/,/^}$/p' | jq -r '.key')
-        export OPENAI_API_KEY
+        API_KEY=$(echo "$curl_output" | sed -n '/^{/,/^}$/p' | jq -r '.key')
+        
+        echo "$API_KEY" 2>&1
     fi
 }
 
+# Callback function for async OpenAI API key setting
 set_openai_api_key_async_callback() {
     if [[ -n $3 ]]; then
-        echo "Error in set_openai_api_key_async: $3" >&2
+        export OPENAI_API_KEY=$3
     else
-        export OPENAI_API_KEY=$2
+        echo "Error in set_openai_api_key_async" >&2
     fi
 }
+
+#### ALIASES ####
 
 # Neovim: nvim -> nv
 alias nv="nvim"
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='nvim'
-  export VISUAL='nvim'
+#### EDITOR SETTINGS ####
 
-  # Set up async worker
-  async_init
-  async_start_worker openai_worker -n
-  async_job openai_worker set_openai_api_key
-  async_register_callback openai_worker set_openai_api_key_async_callback
- 
-  # Launch tmux
-  # if  [ -n "$TERM" ] && command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  #   echo "launching tmux"
-  #   exec tmux
-  # fi
+# Set preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+    export EDITOR='vim'
+else
+    export EDITOR='nvim'
+    export VISUAL='nvim'
+
+    # Set up async worker for OpenAI API key
+    async_init
+    async_start_worker openai_worker -n
+    async_job openai_worker set_openai_api_key
+    async_register_callback openai_worker set_openai_api_key_async_callback
 fi
