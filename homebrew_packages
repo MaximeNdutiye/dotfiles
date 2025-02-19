@@ -4,4 +4,3 @@ reattach-to-user-namespace
 rg
 ruby-install
 mosh
---cask visual-studio-code

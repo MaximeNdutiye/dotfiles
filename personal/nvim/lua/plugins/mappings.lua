@@ -5,7 +5,6 @@ local telescope_cycle = require "config/telescope-cycle"
 local telescope_builtin = require "telescope.builtin"
 local smart_splits = require "smart-splits"
 local notify = require "notify"
-local harpoon = require "harpoon"
 local dev_test_runner = require "config/dev-test-runner"
 local telescope_utils = require "config/telescope-utils"
 

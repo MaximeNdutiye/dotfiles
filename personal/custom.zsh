@@ -61,8 +61,8 @@ else
     export VISUAL='nvim'
 
     # Set up async worker for OpenAI API key
-    async_init
-    async_start_worker openai_worker -n
-    async_job openai_worker set_openai_api_key
-    async_register_callback openai_worker set_openai_api_key_async_callback
+    # async_init
+    # async_start_worker openai_worker -n
+    # async_job openai_worker set_openai_api_key
+    # async_register_callback openai_worker set_openai_api_key_async_callback
 fi
