@@ -60,6 +60,9 @@ source $DF_USER/custom.zsh
 # Load changes specific to this local environment.
 source ~/extra.zsh
 
+# chruby for homebrew
+source /usr/local/opt/chruby/share/chruby/chruby.sh
+
 # Dev
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
 
