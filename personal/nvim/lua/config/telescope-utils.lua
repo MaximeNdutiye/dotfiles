@@ -21,13 +21,14 @@ function telescope_utils.toggle_telescope_with_log_file_code_locations()
   for _, item in ipairs(data) do
     if item["code.filepath"] ~= nil then
       local relative_path = string.gsub(item["code.filepath"], "/app/areas/core/shopify", "")
+      local message = item["message"] or "No message"
       local line_no = item["code.lineno"]
       local new_path = "/Users/maximendutiye/src/github.com/Shopify/shopify/areas/core/shopify" .. relative_path
 
       local telescope_entry = {
         path = new_path,
         value = relative_path,
-        display = relative_path .. ":" .. line_no .. ":1",
+        display = message, -- relative_path .. ":" .. line_no .. ":1",
         ordinal = relative_path,
         lnum = line_no,
       }
@@ -36,7 +37,7 @@ function telescope_utils.toggle_telescope_with_log_file_code_locations()
     end
   end
 
-  vim.print(vim.inspect(filepaths))
+  -- vim.print(vim.inspect(filepaths))
 
   if #filepaths == 0 then notify "No Content" end
 

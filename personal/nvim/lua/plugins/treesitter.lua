@@ -10,5 +10,20 @@ return {
       "vim",
       -- add more arguments for adding more treesitter parsers
     })
+
+    opts.textobjects = {
+      select = {
+        enable = true,
+        keymaps = {
+          -- custom capture rhs
+          ["aR"] = "(assignment) left: (_) right: (_) @assignment.rhs @capture",
+
+          -- Built-in captures.
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+        },
+      },
+    }
+
   end,
 }

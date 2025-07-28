@@ -1,12 +1,21 @@
 local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 local telescope_layout = require "telescope.actions.layout"
 local telescope_global_state = require "telescope.state"
+local dev_test_runner = require "config/dev-test-runner"
+local telescope_utils = require "config/telescope-utils"
 local telescope_cycle = require "config/telescope-cycle"
 local telescope_builtin = require "telescope.builtin"
 local smart_splits = require "smart-splits"
 local notify = require "notify"
+<<<<<<< HEAD
 local dev_test_runner = require "config/dev-test-runner"
 local telescope_utils = require "config/telescope-utils"
+||||||| parent of 191a906 (current)
+local harpoon = require "harpoon"
+local dev_test_runner = require "config/dev-test-runner"
+local telescope_utils = require "config/telescope-utils"
+=======
+>>>>>>> 191a906 (current)
 
 -- Repeat movement with ; and ,
 -- ensure ; goes forward and , goes backward regardless of the last direction
@@ -48,16 +57,37 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   desc = "Find matching test file when opening a file",
 })
 
+-- Convert telescope entries to quickfix items
+local function telescope_entries_to_qf_items(entries)
+  local qf_items = {}
+  for _, entry in ipairs(entries) do
+    table.insert(qf_items, {
+      filename = entry.path,
+      lnum = entry.lnum,
+      col = 1,
+      text = entry.display,
+    })
+  end
+  return qf_items
+end
+
 -- Given a log file allows traversing the locations for where the logs were emitted
 -- When in a parsed log file file all the
--- code.line_no and code.filepaths and open telescope with the results
-vim.api.nvim_create_user_command("TelescopeLogs", function()
+-- code.line_no and code.filepaths and populate the quickfix list
+vim.api.nvim_create_user_command("CoreLogs", function()
   local telescope_entries = telescope_utils.toggle_telescope_with_log_file_code_locations()
 
   if telescope_entries == nil then return notify "No results" end
   if #telescope_entries == 0 then return notify "Empty" end
 
-  telescope_utils.toggle_telescope(telescope_entries)
+  local qf_items = telescope_entries_to_qf_items(telescope_entries)
+  local namespace = vim.api.nvim_create_namespace "corelogs"
+  vim.fn.setqflist(qf_items)
+  local log_diagnostics = vim.diagnostic.fromqflist(qf_items)
+  vim.diagnostic.set(namespace, 0, log_diagnostics)
+
+  -- vim.cmd("copen")
+  vim.cmd [[Trouble qflist open]]
 end, {})
 
 return {
@@ -75,13 +105,7 @@ return {
 
               vim.fn.jobstart(command, {
                 stdout_buffered = true,
-                on_stdout = function(_, data)
-                  if data then
-                    vim.schedule(function() notify(vim.inspect(data), vim.log.levels.ERROR) end)
-                  else
-                    vim.schedule(function() notify("no data", vim.log.levels.ERROR) end)
-                  end
-                end,
+                on_stdout = function(_, data) print(vim.inspect(data)) end,
                 on_exit = function(_, exit_code)
                   if exit_code ~= 0 then
                     vim.schedule(function() notify("Exit code not 0", vim.log.levels.ERROR) end)
@@ -182,9 +206,7 @@ return {
             desc = "Find with frecency",
           },
           ["<Leader>rt"] = {
-            function()
-              dev_test_runner.open_test_or_source_file()
-            end,
+            function() dev_test_runner.open_test_or_source_file() end,
             desc = "Find test files (Ruby)",
           },
           ["<Leader>tt"] = {
@@ -250,6 +272,12 @@ return {
           },
         },
         i = {
+          -- ["<M-o>"] = {
+          --   function() vim.fn.feedkeys(vim.fn["copilot#Accept"](), "") end,
+          --   desc = "Copilot Accept",
+          --   q
+          --   --- { replace_keycodes = true, nowait = true, silent = true, expr = true, noremap = true },
+          -- },
           ["<C-h>"] = {
             function()
               if not telescope_utils.is_telescope_open() then

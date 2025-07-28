@@ -50,6 +50,7 @@ set_openai_api_key_async_callback() {
 
 # Neovim: nvim -> nv
 alias nv="nvim"
+alias config='/usr/bin/git --git-dir=$DF_HOME --work-tree=$DF_HOME'
 
 #### EDITOR SETTINGS ####
 

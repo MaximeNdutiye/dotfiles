@@ -6,6 +6,7 @@ return {
   version = false, -- set this if you want to always pull the latest change
   opts = {
     -- add any opts here
+    debug = true,
     provider = "openai",
     openai = {
       endpoint = "https://openai-proxy.shopify.ai/v3/v1",
@@ -14,6 +15,8 @@ return {
       timeout = 30000, -- Timeout in milliseconds
       temperature = 0,
       max_tokens = 4096,
+      api_key_name = "OPENAI_API_KEY", -- the shell command must prefixed with `^cmd:(.*)`
+      -- api_key_name = {"cmd:set_opanai_api_key"}, -- if it is a table of string, then default to command.
       -- deprecated option use api_key_name instead
       -- ["local"] = false,
     },
