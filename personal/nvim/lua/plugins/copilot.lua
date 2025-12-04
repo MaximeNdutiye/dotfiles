@@ -1,7 +1,7 @@
 return {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
-  -- enabled = false,
+  enabled = false,
   -- this prevents copilot from loading
   event = "InsertEnter",
   lazy = true,

@@ -7,18 +7,13 @@ return {
   opts = {
     -- add any opts here
     debug = true,
-    provider = "openai",
-    openai = {
-      endpoint = "https://openai-proxy.shopify.ai/v3/v1",
-      -- the shell command must prefixed with `^cmd:(.*)`
-      model = "anthropic:claude-3-5-sonnet",
-      timeout = 30000, -- Timeout in milliseconds
-      temperature = 0,
-      max_tokens = 4096,
-      api_key_name = "OPENAI_API_KEY", -- the shell command must prefixed with `^cmd:(.*)`
-      -- api_key_name = {"cmd:set_opanai_api_key"}, -- if it is a table of string, then default to command.
-      -- deprecated option use api_key_name instead
-      -- ["local"] = false,
+    provider = "shopify",
+    providers = {
+      shopify = {
+        __inherited_from = "openai",
+        endpoint = "https://proxy.shopify.ai/v1",
+        api_key_name = "cmd:/opt/dev/bin/dev llm-gateway print-token --key",
+      },
     },
     behaviour = {
       auto_suggestions = false, -- Experimental stage

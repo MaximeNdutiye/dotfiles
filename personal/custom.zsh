@@ -3,9 +3,6 @@
 # Put anything here that you want to exist on all your environments, and to have the highest priority
 # over any other customization.
 
-# Load zsh-async library
-source ~/.antigen/bundles/mafredri/zsh-async-main/async.zsh
-
 #### FUNCTIONS ####
 
 # Set AI Proxy API key
@@ -32,7 +29,7 @@ set_openai_api_key() {
         echo "Curl output: $curl_output" >&2
     else
         API_KEY=$(echo "$curl_output" | sed -n '/^{/,/^}$/p' | jq -r '.key')
-        
+
         echo "$API_KEY" 2>&1
     fi
 }

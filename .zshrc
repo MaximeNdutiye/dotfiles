@@ -2,7 +2,7 @@
 # Don't modify this file directly, or you'll remove your ability to update against new versions of
 # the dotfiles-starter-template
 
-# use this for profiling. Also uncomment the zprof line below 
+# use this for profiling. Also uncomment the zprof line below
 # zmodload zsh/zprof
 
 export DOTFILES_DIRECTORY_NAME="dotfiles"
@@ -13,6 +13,9 @@ export DF_USER=$DF_HOME/personal
 # Create common color functions.
 # autoload -U colors
 # colors
+
+# Enable vi mode
+# bindkey -v
 
 # Include the default Spin zshrc
 # This file has a number of useful functions for detecting the status of the Spin environment.
@@ -75,3 +78,9 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
 # use this for profiling
 # zprof
+
+# Added by tec agent
+[[ -x /Users/maximendutiye/.local/state/tec/profiles/base/current/global/init ]] && eval "$(/Users/maximendutiye/.local/state/tec/profiles/base/current/global/init zsh)"
+
+# fixes the prompt not showing up in the terminal
+add-zsh-hook -d precmd prompt_grml_precmd

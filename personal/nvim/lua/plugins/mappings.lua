@@ -1,21 +1,12 @@
 local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
 local telescope_layout = require "telescope.actions.layout"
 local telescope_global_state = require "telescope.state"
-local dev_test_runner = require "config/dev-test-runner"
-local telescope_utils = require "config/telescope-utils"
 local telescope_cycle = require "config/telescope-cycle"
 local telescope_builtin = require "telescope.builtin"
 local smart_splits = require "smart-splits"
 local notify = require "notify"
-<<<<<<< HEAD
 local dev_test_runner = require "config/dev-test-runner"
 local telescope_utils = require "config/telescope-utils"
-||||||| parent of 191a906 (current)
-local harpoon = require "harpoon"
-local dev_test_runner = require "config/dev-test-runner"
-local telescope_utils = require "config/telescope-utils"
-=======
->>>>>>> 191a906 (current)
 
 -- Repeat movement with ; and ,
 -- ensure ; goes forward and , goes backward regardless of the last direction

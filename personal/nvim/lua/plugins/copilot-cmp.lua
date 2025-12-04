@@ -6,7 +6,7 @@ end
 
 return {
   "zbirenbaum/copilot-cmp",
-  -- enabled = false,
+  enabled = false,
   dependencies = "copilot.lua",
   lazy = true,
   opts = {
