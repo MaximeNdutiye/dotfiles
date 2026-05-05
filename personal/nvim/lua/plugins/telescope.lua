@@ -39,11 +39,15 @@ return {
           disable_devicons = false,
           auto_validate = true,
           db_validate_threshold = 30,
-          workspaces = {
-            ["shopify"] = "/Users/maximendutiye/src/github.com/Shopify/shopify",
-            ["checkouts"] = "/Users/maximendutiye/src/github.com/Shopify/shopify/components/checkouts",
-            ["tcheckouts"] = "/Users/maximendutiye/src/github.com/Shopify/shopify/components/checkouts/test",
-          },
+          workspaces = (function()
+            local home = os.getenv("HOME") or ""
+            local shop_root = home .. "/src/github.com/Shopify/shopify"
+            return {
+              ["shopify"] = shop_root,
+              ["checkouts"] = shop_root .. "/components/checkouts",
+              ["tcheckouts"] = shop_root .. "/components/checkouts/test",
+            }
+          end)(),
         },
       },
     }

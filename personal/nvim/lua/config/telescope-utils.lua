@@ -23,7 +23,7 @@ function telescope_utils.toggle_telescope_with_log_file_code_locations()
       local relative_path = string.gsub(item["code.filepath"], "/app/areas/core/shopify", "")
       local message = item["message"] or "No message"
       local line_no = item["code.lineno"]
-      local new_path = "/Users/maximendutiye/src/github.com/Shopify/shopify/areas/core/shopify" .. relative_path
+      local new_path = (os.getenv("HOME") or "") .. "/src/github.com/Shopify/shopify/areas/core/shopify" .. relative_path
 
       local telescope_entry = {
         path = new_path,
@@ -44,7 +44,7 @@ function telescope_utils.toggle_telescope_with_log_file_code_locations()
   -- return {}
   return filepaths
   -- Write the filepaths to the quickfix format file
-  -- local outfile = io.open("/Users/maximendutiye/Downloads/filepaths.qf", "w")
+  -- local outfile = io.open((os.getenv("HOME") or "") .. "/Downloads/filepaths.qf", "w")
 
   -- if(outfile == nil) then return end;
 

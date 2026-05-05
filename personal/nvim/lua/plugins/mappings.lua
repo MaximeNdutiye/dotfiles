@@ -232,6 +232,23 @@ return {
             function() vim.g.autoformat = false end,
             desc = "Disable autoformat",
           },
+          -- Git blame (GitLens-like)
+          ["<Leader>gb"] = {
+            function() require("gitsigns").toggle_current_line_blame() end,
+            desc = "Toggle inline git blame",
+          },
+          ["<Leader>gB"] = {
+            function() require("gitsigns").blame_line { full = true } end,
+            desc = "Full git blame for current line",
+          },
+          ["<Leader>gd"] = {
+            function() require("gitsigns").diffthis() end,
+            desc = "Diff this file",
+          },
+          ["<Leader>gD"] = {
+            function() require("gitsigns").diffthis("~") end,
+            desc = "Diff this file against last commit",
+          },
           ["<leader>dt"] = {
             function()
               -- Get the current file name

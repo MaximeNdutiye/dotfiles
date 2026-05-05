@@ -1,11 +1,16 @@
 # Add your preferred git settings here. This will overwrite anything in `core/configs/.gitconfig`.
 
 [include]
-	path = /Users/maximendutiye/.config/dev/gitconfig
+	path = ~/.config/dev/gitconfig
 
 [user]
-	name = Maxime Ndutiye
-	email = maxime.ndutiye@shopify.com
+	# Configure your git identity locally — this file is committed to a public repo.
+	# Run once on a new machine:
+	#   git config --file ~/dotfiles/personal/.gitconfig user.name  "Your Name"
+	#   git config --file ~/dotfiles/personal/.gitconfig user.email "you@example.com"
+	# Or override per-machine in ~/.config/dev/gitconfig (included above).
+	# name  =
+	# email =
 
 [core]
     pager = delta

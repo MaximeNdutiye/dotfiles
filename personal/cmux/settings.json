@@ -1,0 +1,81 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux-settings.schema.json",
+  "schemaVersion": 1,
+
+  // This file mirrors the ergonomics of ~/.wezterm.lua so cmux feels the same as wezterm.
+  // Managed via dotfiles (symlinked from ~/dotfiles/personal/cmux/settings.json).
+
+  "app": {
+    // Match wezterm: scheme_for_appearance() auto-picks Catppuccin Mocha / Latte from system appearance.
+    "appearance": "system",
+    // Wezterm: switch_to_last_active_tab_when_closing_tab = true
+    // Closest cmux equivalent — don't keep an empty workspace around when the last surface closes.
+    "keepWorkspaceOpenWhenClosingLastSurface": false,
+    "warnBeforeQuit": true
+  },
+
+  // Disable the embedded cmux browser — send all links to the system default browser.
+  "browser": {
+    "openTerminalLinksInCmuxBrowser": false,
+    "interceptTerminalOpenCommandInCmuxBrowser": false
+  },
+
+  // Sidebar PR / port links should also open externally rather than in cmux's browser.
+  "sidebar": {
+    "openPullRequestLinksInCmuxBrowser": false,
+    "openPortLinksInCmuxBrowser": false
+  },
+
+  "shortcuts": {
+    "bindings": {
+      // Cmux does not yet support conditional passthrough of keys when the focused
+      // pane is in alt-screen mode (see manaflow-ai/cmux#2772). That means any
+      // ctrl+<letter> binding is intercepted *before* it reaches nvim, breaking
+      // smart-splits.nvim navigation. Workaround: put every pane/tab binding
+      // behind a tmux-style leader chord (ctrl+a, then key) — same shape as the
+      // wezterm config. Bare ctrl+h/j/k/l stay free for nvim/smart-splits.
+
+      // ----- Pane navigation (wezterm: CTRL+h/j/k/l via smart-splits) -----
+      // Chorded here so they don't collide with nvim window nav.
+      "focusLeft":  ["ctrl+a", "h"],
+      "focusDown":  ["ctrl+a", "j"],
+      "focusUp":    ["ctrl+a", "k"],
+      "focusRight": ["ctrl+a", "l"],
+
+      // ----- Splits (wezterm: LEADER \ / LEADER -) -----
+      "splitRight": ["ctrl+a", "\\"],
+      "splitDown":  ["ctrl+a", "-"],
+
+      // ----- Zoom (wezterm: LEADER z) -----
+      "toggleSplitZoom": ["ctrl+a", "z"],
+
+      // ----- Tabs / surfaces -----
+      // Wezterm: LEADER , → rename tab
+      "renameTab": ["ctrl+a", ","],
+      // Wezterm: LEADER x → CloseCurrentPane
+      "closeTab": ["ctrl+a", "x"],
+      // Wezterm: LEADER t → ShowTabNavigator
+      "goToWorkspace": ["ctrl+a", "t"],
+
+      // ----- Copy mode (wezterm: LEADER [) -----
+      "toggleTerminalCopyMode": ["ctrl+a", "["],
+
+      // ----- Misc niceties kept at sensible defaults -----
+      "commandPalette": "cmd+shift+p",
+      "openSettings": "cmd+,",
+      "reloadConfiguration": "cmd+shift+,",
+      "toggleSidebar": "cmd+b",
+      "toggleFullScreen": "cmd+ctrl+f",
+      "newSurface": "cmd+t",
+      "newTab": "cmd+n",
+      "newWindow": "cmd+shift+n",
+      "closeWindow": "cmd+ctrl+w",
+      "closeWorkspace": "cmd+shift+w",
+      "find": "cmd+f",
+      "findNext": "cmd+g",
+      "findPrevious": "cmd+opt+g",
+      "quit": "cmd+q"
+    },
+    "showModifierHoldHints": true
+  }
+}

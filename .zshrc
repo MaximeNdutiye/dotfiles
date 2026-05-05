@@ -30,6 +30,9 @@ fi
 source $DF_CORE/environment.zsh
 source $DF_USER/environment.zsh
 
+# Load real secrets from outside the (public) dotfiles repo, if present.
+[ -f "$HOME/.config/dotfiles-secrets/.env" ] && source "$HOME/.config/dotfiles-secrets/.env"
+
 # Load color helper variable definitions
 source $DF_CORE/formatting.zsh
 
@@ -64,7 +67,7 @@ source $DF_USER/custom.zsh
 source ~/extra.zsh
 
 # chruby for homebrew
-source /usr/local/opt/chruby/share/chruby/chruby.sh
+# source /usr/local/opt/chruby/share/chruby/chruby.sh
 
 # Dev
 [[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
@@ -80,7 +83,9 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 # zprof
 
 # Added by tec agent
-[[ -x /Users/maximendutiye/.local/state/tec/profiles/base/current/global/init ]] && eval "$(/Users/maximendutiye/.local/state/tec/profiles/base/current/global/init zsh)"
+[[ -x "$HOME/.local/state/tec/profiles/base/current/global/init" ]] && eval "$("$HOME/.local/state/tec/profiles/base/current/global/init" zsh)"
+
+#export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
 # fixes the prompt not showing up in the terminal
 add-zsh-hook -d precmd prompt_grml_precmd

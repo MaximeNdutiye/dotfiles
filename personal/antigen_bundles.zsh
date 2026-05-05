@@ -18,7 +18,6 @@ antigen theme MaximeNdutiye/dotfiles themes/af-magic
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundles <<EOBUNDLES
-  git-auto-fetch
   mafredri/zsh-async --branch=main
 EOBUNDLES
 

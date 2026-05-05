@@ -17,11 +17,19 @@ set_openai_api_key() {
         return 1
     fi
 
-    curl_output=$(curl -si 'https://openai-proxy.shopify.io/hmac/team' \
+    # Configure these via env vars (e.g. in ~/.config/dotfiles-secrets/.env):
+    #   OPENAI_PROXY_URL, AI_PROXY_TEAM_ID, AI_PROXY_PROJECT_ID, AI_PROXY_REPO
+    local proxy_url="${OPENAI_PROXY_URL:?OPENAI_PROXY_URL is not set}"
+    local team_id="${AI_PROXY_TEAM_ID:?AI_PROXY_TEAM_ID is not set}"
+    local project_id="${AI_PROXY_PROJECT_ID:?AI_PROXY_PROJECT_ID is not set}"
+    local repo="${AI_PROXY_REPO:-shopify}"
+    local environment="${AI_PROXY_ENVIRONMENT:-dev}"
+
+    curl_output=$(curl -si "$proxy_url" \
     -H 'accept: */*' \
     -H 'content-type: application/json' \
     -H "Authorization: Bearer $bearer_token" \
-    --data-raw '{"team":1526,"project":39580,"repo":"shopify","environment":"dev"}' 2>&1)
+    --data-raw "{\"team\":${team_id},\"project\":${project_id},\"repo\":\"${repo}\",\"environment\":\"${environment}\"}" 2>&1)
     curl_exit_code=$?
 
     if [ $curl_exit_code -ne 0 ]; then
@@ -43,12 +51,73 @@ set_openai_api_key_async_callback() {
     fi
 }
 
+get_global_auth_token() {
+  # Prefer real secrets stored outside the dotfiles repo.
+  local secrets_env_file="${HOME}/.config/dotfiles-secrets/.env"
+  local repo_env_file="${DF_USER}/.env"
+  if [[ -f "$secrets_env_file" ]]; then
+    source "$secrets_env_file"
+  elif [[ -f "$repo_env_file" ]]; then
+    source "$repo_env_file"
+  else
+    echo "Error: .env file not found at $secrets_env_file or $repo_env_file" >&2
+    return 1
+  fi
+
+  curl -X POST "https://api.shopify.com/auth/access_token" \
+    -H "Content-Type: application/json" \
+    -d "{
+    \"client_id\": \"${AGENTIC_API_KEY}\",
+    \"client_secret\": \"${AGENTIC_APP_SECRET_KEY}\",
+    \"grant_type\": \"client_credentials\"
+  }"
+}
+
+set_global_auth_token() {
+  local ucp_env_file="${HOME}/Desktop/.ucp_env"
+  local response
+  local token
+
+  if ! response=$(get_global_auth_token 2>&1); then
+    echo "Error in set_global_auth_token: get_global_auth_token failed" >&2
+    echo "$response" >&2
+    return 1
+  fi
+
+  # Extract the JSON body (get_global_auth_token uses curl without -s,
+  # so the output includes the progress meter). Grab from the first `{` onward.
+  token=$(echo "$response" | sed -n '/^{/,$p' | jq -r '.access_token')
+
+  if [[ -z "$token" || "$token" == "null" ]]; then
+    echo "Error in set_global_auth_token: could not parse access_token from response" >&2
+    echo "Response: $response" >&2
+    return 1
+  fi
+
+  # Ensure the file exists
+  touch "$ucp_env_file"
+
+  # Replace existing GLOBAL_AUTH_TOKEN line, or append if missing
+  if grep -q '^GLOBAL_AUTH_TOKEN=' "$ucp_env_file"; then
+    # Use a temp file for portable in-place edit (macOS sed-friendly)
+    local tmp_file
+    tmp_file=$(mktemp)
+    awk -v token="$token" '
+      /^GLOBAL_AUTH_TOKEN=/ { print "GLOBAL_AUTH_TOKEN=" token; next }
+      { print }
+    ' "$ucp_env_file" > "$tmp_file" && mv "$tmp_file" "$ucp_env_file"
+  else
+    echo "GLOBAL_AUTH_TOKEN=${token}" >> "$ucp_env_file"
+  fi
+
+  echo "GLOBAL_AUTH_TOKEN set in $ucp_env_file"
+}
+
 #### ALIASES ####
 
 # Neovim: nvim -> nv
 alias nv="nvim"
 alias config='/usr/bin/git --git-dir=$DF_HOME --work-tree=$DF_HOME'
-
 #### EDITOR SETTINGS ####
 
 # Set preferred editor for local and remote sessions

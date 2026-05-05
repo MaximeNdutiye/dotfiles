@@ -1,0 +1,18 @@
+# Local secrets — never commit
+personal/.env
+*.env.local
+*.secret
+*.secrets
+
+# Local Claude / Cursor / IDE per-user settings
+.claude/settings.local.json
+
+# Auto-generated / per-machine state
+**/.netrwhist
+antigen_log
+.DS_Store
+
+# Editor backups & swap
+*~
+*.swp
+*.swo
