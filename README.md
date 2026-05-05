@@ -40,7 +40,6 @@ Load order can be seen in `.zshrc`.
 - `macos.zsh`: Customizations that should only be run on MacOS.
 - `antigen_bundles.zsh`: Define additional zsh plugins to include. Your theme selection should be set here as well (default is Staples).
 - `dircolors`: Define a custom dircolors file. Optional, falls back to system default.
-- `spin.zsh`: Customizations that should only be applied to Spin environments.
 - `custom.zsh`: Customizations that should apply everywhere. This is the LAST file
 loaded, so any conflicting changes made here will override any previous files.
 

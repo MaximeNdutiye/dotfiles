@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Runs on setup of a new spin environment.
+# Runs on setup of a new development environment.
 # Create common color functions.
 autoload -U colors
 colors
@@ -39,13 +39,6 @@ case $ZSH_HOST_OS in
   done < "$HOMEBREW_PACKAGES_FILE"
 ;;
 esac
-
-if [ $SPIN ]; then
-  # Install Ripgrep for better code searching: `rg <string>` to search. Obeys .gitignore
-  echo "Installing packages"
-
-  sudo apt-get install -y ripgrep
-fi
 
 # Clone git repos
 # Function to clone git repositories from a given file

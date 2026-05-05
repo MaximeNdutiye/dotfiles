@@ -17,15 +17,6 @@ export DF_USER=$DF_HOME/personal
 # Enable vi mode
 # bindkey -v
 
-# Include the default Spin zshrc
-# This file has a number of useful functions for detecting the status of the Spin environment.
-# We can still overwrite the terminal display later on, if we want.
-if [ $SPIN ]; then
-  if [ -e /etc/zsh/zshrc.default.inc.zsh ]; then
-    source /etc/zsh/zshrc.default.inc.zsh
-  fi
-fi
-
 # Set up custom environment variables
 source $DF_CORE/environment.zsh
 source $DF_USER/environment.zsh
@@ -57,9 +48,6 @@ if [ -e $DF_USER/dircolors ]; then
 fi
 
 source $DF_CORE/filter_history.zsh
-
-# Load personalized configs for Spin environments
-source $DF_USER/spin.zsh
 
 source $DF_USER/custom.zsh
 

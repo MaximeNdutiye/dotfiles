@@ -94,8 +94,6 @@
     "git-rebase-todo": "default"
   },
   "terminal.integrated.enableMultiLinePasteWarning": false,
-  // Spin host pinning lives in your local ~/.config/Code/User/settings.json,
-  // not here — hostnames embed personal identifiers.
   "remote.SSH.remotePlatform": {},
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
