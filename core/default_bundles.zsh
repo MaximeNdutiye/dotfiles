@@ -1,25 +1,33 @@
+# Zsh plugins managed by zinit (https://github.com/zdharma-continuum/zinit)
 # Additional plugins can be found at https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
-# Install plugins with `antigen bundle <plugin-name>`
-source ~/antigen/antigen.zsh
 
-# Install oh-my-zsh with paths set properly for Antigen bundles
-antigen use oh-my-zsh
+# Bootstrap zinit if not installed
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -d "$ZINIT_HOME" ]]; then
+  mkdir -p "$(dirname $ZINIT_HOME)"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+source "${ZINIT_HOME}/zinit.zsh"
 
-# Install autocompletion for Rails and Rake
-# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/rails
-antigen bundle rails
+# ── oh-my-zsh libs (lightweight foundation) ──────────────────────────
+zinit snippet OMZL::git.zsh
+zinit snippet OMZL::theme-and-appearance.zsh
+zinit snippet OMZL::spectrum.zsh
+zinit snippet OMZL::completion.zsh
+zinit snippet OMZL::key-bindings.zsh
 
-# Install autocompletion for ripgrep
-# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/ripgrep
-antigen bundle ripgrep
+# ── oh-my-zsh plugins ───────────────────────────────────────────────
+# Rails & Rake autocompletion
+zinit snippet OMZP::rails
 
-# Install shortcuts for common Ruby actions
-# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/ruby
-antigen bundle ruby
+# Ripgrep completions are installed by homebrew into site-functions automatically.
+
+# Ruby shortcuts
+zinit snippet OMZP::ruby
 
 # Prefix a command with sudo by double-tapping ESC
-# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/sudo
-antigen bundle sudo
+zinit snippet OMZP::sudo
 
-# Syntax highlighting on the prompt as you type commands
-antigen bundle zsh-users/zsh-syntax-highlighting
+# ── Community plugins ────────────────────────────────────────────────
+# Syntax highlighting — loaded last (deferred) for speed
+zinit light zsh-users/zsh-syntax-highlighting

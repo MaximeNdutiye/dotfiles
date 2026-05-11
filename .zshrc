@@ -35,10 +35,9 @@ if [ "$ZSH_HOST_OS" = "darwin" ]; then
   fi
 fi
 
-# Load zsh plugins via Antigen
+# Load zsh plugins via zinit
 source $DF_CORE/default_bundles.zsh
 source $DF_USER/antigen_bundles.zsh
-antigen apply
 
 source $DF_CORE/utils.zsh
 
@@ -77,3 +76,5 @@ alias h2='$(npm prefix -s)/node_modules/.bin/shopify hydrogen'
 
 # fixes the prompt not showing up in the terminal
 add-zsh-hook -d precmd prompt_grml_precmd
+
+alias ai-dash='cargo run --manifest-path ~/src/github.com/shopify-playground/ai-dash-rs/Cargo.toml --'

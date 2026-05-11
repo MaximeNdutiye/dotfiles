@@ -90,7 +90,7 @@
 	ff = only
 
 [push]
-	autoSetupRemoet = true
+	autoSetupRemote = true
 
 [rerere]
 	# https://git-scm.com/docs/git-rerere

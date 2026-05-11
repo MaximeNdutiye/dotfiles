@@ -1,7 +1,8 @@
 # Search in history based on a partially written command.
 
-# Ensure that history is shared across sessions
-# SHARE_HISTORY: history is shared across sessions, including active sessions
+# Share history across sessions (imports new entries from other shells on each prompt).
+# Note: SHARE_HISTORY implies INC_APPEND_HISTORY, so the setopt in
+# environment.zsh is harmless but redundant — kept for clarity.
 setopt SHARE_HISTORY
 
 # Bind up arrow

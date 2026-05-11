@@ -10,6 +10,7 @@ personal/.env
 # Auto-generated / per-machine state
 **/.netrwhist
 antigen_log
+zinit_log
 .DS_Store
 
 # Editor backups & swap

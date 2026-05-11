@@ -192,6 +192,7 @@ return {
           },
           -- required for Windows users
           use_absolute_path = true,
+          verbose = false,
         },
       },
     },

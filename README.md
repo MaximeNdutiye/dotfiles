@@ -1,13 +1,13 @@
-Uses [oh-my-zsh](https://ohmyz.sh/) with [Antigen](https://github.com/zsh-users/antigen) to manage dependencies and themes.
-Default theme is [Staples](https://github.com/dersam/staples).
+Uses [oh-my-zsh](https://ohmyz.sh/) snippets with [zinit](https://github.com/zdharma-continuum/zinit) to manage zsh plugins and themes.
+Default theme is [af-magic](themes/af-magic.zsh-theme).
 
 ### Installation
 1. Clone the repo to `~/dotfiles`:
 ```
 git clone https://github.com/Shopify/dotfiles-starter-template.git ~/dotfiles
 ```
-2. Run `install.sh`. This will symlink configs and .zshrc, overwriting anything you already have.
-3. Open a new terminal, or `exec zsh`. Antigen bundles will be installed and you should be ready to go.
+2. Run `install.sh`. This will install zinit, homebrew packages, symlink configs, and set macOS defaults.
+3. Open a new terminal, or `exec zsh`. Zinit will download plugins on first load.
 
 To make your own copy to save your customizations, create a branch with your Github handle to the [dotfiles repo](https://github.com/Shopify/dotfiles), and push to it.
 
@@ -38,12 +38,11 @@ Load order can be seen in `.zshrc`.
 
 - `environment.zsh`: Define any environment variables you always want.
 - `macos.zsh`: Customizations that should only be run on MacOS.
-- `antigen_bundles.zsh`: Define additional zsh plugins to include. Your theme selection should be set here as well (default is Staples).
+- `antigen_bundles.zsh`: Define additional zsh plugins (via zinit). Your theme selection should be set here as well.
 - `dircolors`: Define a custom dircolors file. Optional, falls back to system default.
 - `custom.zsh`: Customizations that should apply everywhere. This is the LAST file
 loaded, so any conflicting changes made here will override any previous files.
 
-#### Custom install
-`personal/install.sh` is a special case. It is run as part of the `install.sh` script, and should be where you put
-any customizations around initial setup and installation. For example, if you want to symlink a config from `personal`
-into your home directory, that's where you'd run that command.
+#### Secrets
+Never commit real secrets. Use `~/.config/dotfiles-secrets/.env` (chmod 600) for API keys and tokens.
+`personal/.env` is gitignored and serves as a local fallback.

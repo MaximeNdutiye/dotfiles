@@ -1,6 +1,7 @@
 chruby
 coreutils
-reattach-to-user-namespace
+delta
+jq
 rg
 ruby-install
 mosh
