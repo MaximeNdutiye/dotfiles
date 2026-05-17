@@ -118,6 +118,47 @@ set_global_auth_token() {
 # Neovim: nvim -> nv
 alias nv="nvim"
 alias config='/usr/bin/git --git-dir=$DF_HOME --work-tree=$DF_HOME'
+
+# Modern CLI replacements (all guarded so bootstrap works before brew install).
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --icons --group-directories-first'
+  alias ll='eza -la --icons --group-directories-first --git'
+  alias la='eza -la --icons --group-directories-first'
+  alias lt='eza --tree --level=2 --icons'
+else
+  alias ll='ls -la'
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --paging=never'
+  export PAGER='bat --style=plain'
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  # Tec/dev may install a cd alias; zoxide needs `cd` to be a function.
+  unalias cd 2>/dev/null || true
+  _zoxide_bin="$(command -v zoxide)"
+  _zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zoxide-init.zsh"
+  [[ -d "${_zoxide_cache:h}" ]] || mkdir -p "${_zoxide_cache:h}"
+  if [[ ! -s "$_zoxide_cache" || "$_zoxide_bin" -nt "$_zoxide_cache" ]]; then
+    "$_zoxide_bin" init zsh --cmd cd >| "$_zoxide_cache"
+  fi
+  source "$_zoxide_cache"
+  unset _zoxide_bin _zoxide_cache
+fi
+
+if command -v atuin >/dev/null 2>&1; then
+  _atuin_bin="$(command -v atuin)"
+  _atuin_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/atuin-init.zsh"
+  [[ -d "${_atuin_cache:h}" ]] || mkdir -p "${_atuin_cache:h}"
+  if [[ ! -s "$_atuin_cache" || "$_atuin_bin" -nt "$_atuin_cache" ]]; then
+    "$_atuin_bin" init zsh --disable-up-arrow >| "$_atuin_cache"
+  fi
+  source "$_atuin_cache"
+  unset _atuin_bin _atuin_cache
+fi
+
 #### EDITOR SETTINGS ####
 
 # Set preferred editor for local and remote sessions

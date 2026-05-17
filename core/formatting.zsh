@@ -2,6 +2,8 @@
 # Color variables and functions to be used throughout zsh.
 # There are often-used symbols at the bottom.
 
+autoload -U colors && colors
+
 ## Color variables
 
 # Formatting
@@ -41,7 +43,9 @@ BCYAN="${BOLD}${CYAN}"
 # https://linuxtidbits.wordpress.com/2008/08/11/output-color-on-bash-scripts/
 listcolors()
 {
-	spectrum_ls
+	for code in {000..255}; do
+		print -P -- "$code: %F{$code}sample text%f"
+	done
 }
 
 ##
@@ -54,7 +58,7 @@ BIOHAZARD=$'\226\152\163'
 
 SWIRL="->"
 BOLT="+"
-if [[ $OS == 'osx' ]]; then
+if [[ $ZSH_HOST_OS == 'darwin' ]]; then
 	SWIRL="🌀 "
 	BOLT="⚡️"
 fi

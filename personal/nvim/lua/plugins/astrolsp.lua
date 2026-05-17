@@ -64,6 +64,12 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      sorbet = {
+        -- Only start Sorbet when inside a project with sorbet/config (e.g. Shopify monorepo)
+        -- Use bundle exec so Sorbet has the project's gem context
+        cmd = { "bundle", "exec", "srb", "tc", "--lsp" },
+        root_markers = { "sorbet/config" },
+      },
     },
     -- customize how language servers are attached
     handlers = {

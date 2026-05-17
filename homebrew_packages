@@ -1,7 +1,21 @@
+# Shell/runtime
 chruby
+ruby-install
+
+# Modern CLI tools
+atuin
+bat
+btop
 coreutils
 delta
+eza
+fd
+fzf
 jq
 rg
-ruby-install
+starship
+stow
+zoxide
+
+# Networking/dev
 mosh

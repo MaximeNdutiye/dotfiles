@@ -1,11 +1,13 @@
 # source | target
 # Use | as delimiter to support paths with spaces.
+~/$DOTFILES_DIRECTORY_NAME/.zshenv|~/.zshenv
 ~/$DOTFILES_DIRECTORY_NAME/.zshrc|~/.zshrc
 ~/$DOTFILES_DIRECTORY_NAME/.wezterm.lua|~/.wezterm.lua
 ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.conf|~/.tmux.conf
 ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/.tmux.reset.conf|~/.tmux.reset.conf
 ~/$DOTFILES_DIRECTORY_NAME/personal/tmux/git-worktree-name.sh|~/.tmux/git-worktree-name.sh
 ~/$DOTFILES_DIRECTORY_NAME/personal/cmux/settings.json|~/.config/cmux/settings.json
+~/$DOTFILES_DIRECTORY_NAME/personal/starship.toml|~/.config/starship.toml
 ~/$DOTFILES_DIRECTORY_NAME/configs/.gitignore_global|~/.gitignore_global
 ~/$DOTFILES_DIRECTORY_NAME/personal/nvim|~/.config/nvim
 ~/$DOTFILES_DIRECTORY_NAME/personal/vscode/settings.json|~/Library/Application Support/Code/User/settings.json

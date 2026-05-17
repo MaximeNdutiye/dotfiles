@@ -1,27 +1,32 @@
-local ts_repeat_move = require "nvim-treesitter.textobjects.repeatable_move"
-local telescope_layout = require "telescope.actions.layout"
-local telescope_global_state = require "telescope.state"
+-- All requires are deferred to avoid loading plugins during spec parsing.
+-- Only local config modules (config/*) and vim builtins are safe at top level.
 local telescope_cycle = require "config/telescope-cycle"
-local telescope_builtin = require "telescope.builtin"
-local smart_splits = require "smart-splits"
-local notify = require "notify"
 local dev_test_runner = require "config/dev-test-runner"
 local telescope_utils = require "config/telescope-utils"
+local notify = vim.notify
 
 -- Repeat movement with ; and ,
 -- ensure ; goes forward and , goes backward regardless of the last direction
-vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
-vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
-
--- vim way: ; goes to the direction you were moving.
--- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
--- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+vim.keymap.set({ "n", "x", "o" }, ";", function()
+  require("nvim-treesitter-textobjects.repeatable_move").repeat_last_move_next()
+end)
+vim.keymap.set({ "n", "x", "o" }, ",", function()
+  require("nvim-treesitter-textobjects.repeatable_move").repeat_last_move_previous()
+end)
 
 -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
-vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
-vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
-vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "f", function()
+  return require("nvim-treesitter-textobjects.repeatable_move").builtin_f_expr()
+end, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "F", function()
+  return require("nvim-treesitter-textobjects.repeatable_move").builtin_F_expr()
+end, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "t", function()
+  return require("nvim-treesitter-textobjects.repeatable_move").builtin_t_expr()
+end, { expr = true })
+vim.keymap.set({ "n", "x", "o" }, "T", function()
+  return require("nvim-treesitter-textobjects.repeatable_move").builtin_T_expr()
+end, { expr = true })
 
 local cycle = telescope_cycle(
   function()
@@ -31,10 +36,10 @@ local cycle = telescope_cycle(
       search_dirs = { vim.fn.finddir(".git/..", vim.fn.expand "%:p:h" .. ";") },
     }
   end,
-  telescope_builtin.find_files,
-  telescope_builtin.live_grep,
-  telescope_builtin.grep_string,
-  telescope_builtin.buffers
+  function() require("telescope.builtin").find_files() end,
+  function() require("telescope.builtin").live_grep() end,
+  function() require("telescope.builtin").grep_string() end,
+  function() require("telescope.builtin").buffers() end
 )
 
 -- Create an autocommand group
@@ -114,40 +119,26 @@ return {
             "<cmd>TestNearest<cr>",
             desc = "Vim test test nearest",
           },
-          -- ["<Leader>hl"] = {
-          --   function()
-          --   telescope_utils.toggle_telescope(harpoon:list())
-          --   end,
-          --   desc = "Toggle telescope harpoon",
-          -- },
-          -- ["<Leader>ah"] = {
-          --   function() harpoon:list():add() end,
-          --   desc = "Harpoon add",
-          -- },
-          -- ["<Leader>aa"] = {
-          --   "<cmd>AvanteAsk<cr>",
-          --   desc = "Toggle Avante Ask",
-          -- },
           ["<A-h>"] = {
-            function() smart_splits.resize_left() end,
+            function() require("smart-splits").resize_left() end,
             desc = "Resize split left",
           },
           ["<A-j>"] = {
-            function() smart_splits.resize_down() end,
+            function() require("smart-splits").resize_down() end,
             desc = "Resize split down",
           },
           ["<A-k>"] = {
-            function() smart_splits.resize_up() end,
+            function() require("smart-splits").resize_up() end,
             desc = "Resize split up",
           },
           ["<A-l>"] = {
-            function() smart_splits.resize_right() end,
+            function() require("smart-splits").resize_right() end,
             desc = "Resize split right",
           },
           ["<C-h>"] = {
             function()
               if not telescope_utils.is_telescope_open() then
-                smart_splits.move_cursor_left()
+                require("smart-splits").move_cursor_left()
               else
                 cycle.previous()
               end
@@ -155,17 +146,17 @@ return {
             desc = "Move to left split",
           },
           ["<C-j>"] = {
-            function() smart_splits.move_cursor_down() end,
+            function() require("smart-splits").move_cursor_down() end,
             desc = "Move to below split or cycle next telescope picker",
           },
           ["<C-k>"] = {
-            function() smart_splits.move_cursor_up() end,
+            function() require("smart-splits").move_cursor_up() end,
             desc = "Move to above split",
           },
           ["<C-l>"] = {
             function()
               if not telescope_utils.is_telescope_open() then
-                smart_splits.move_cursor_right()
+                require("smart-splits").move_cursor_right()
               else
                 cycle.next()
               end
@@ -173,23 +164,23 @@ return {
             desc = "Move to right split or cycle next telescope picker",
           },
           ["<C-\\>"] = {
-            function() smart_splits.move_cursor_previous() end,
+            function() require("smart-splits").move_cursor_previous() end,
             desc = "Move to previous split",
           },
           ["<leader><leader>h"] = {
-            function() smart_splits.swap_buf_left() end,
+            function() require("smart-splits").swap_buf_left() end,
             desc = "Swap buffer left",
           },
           ["<leader><leader>j"] = {
-            function() smart_splits.swap_buf_down() end,
+            function() require("smart-splits").swap_buf_down() end,
             desc = "Swap buffer down",
           },
           ["<leader><leader>k"] = {
-            function() smart_splits.swap_buf_up() end,
+            function() require("smart-splits").swap_buf_up() end,
             desc = "Swap buffer up",
           },
           ["<leader><leader>l"] = {
-            function() smart_splits.swap_buf_right() end,
+            function() require("smart-splits").swap_buf_right() end,
             desc = "Swap buffer right",
           },
           ["<Leader><Leader>f"] = {
@@ -280,16 +271,10 @@ return {
           },
         },
         i = {
-          -- ["<M-o>"] = {
-          --   function() vim.fn.feedkeys(vim.fn["copilot#Accept"](), "") end,
-          --   desc = "Copilot Accept",
-          --   q
-          --   --- { replace_keycodes = true, nowait = true, silent = true, expr = true, noremap = true },
-          -- },
           ["<C-h>"] = {
             function()
               if not telescope_utils.is_telescope_open() then
-                smart_splits.move_cursor_left()
+                require("smart-splits").move_cursor_left()
               else
                 cycle.previous()
               end
@@ -297,17 +282,17 @@ return {
             desc = "Move to left split",
           },
           ["<C-j>"] = {
-            function() smart_splits.move_cursor_down() end,
+            function() require("smart-splits").move_cursor_down() end,
             desc = "Move to below split or cycle next telescope picker",
           },
           ["<C-k>"] = {
-            function() smart_splits.move_cursor_up() end,
+            function() require("smart-splits").move_cursor_up() end,
             desc = "Move to above split",
           },
           ["<C-l>"] = {
             function()
               if not telescope_utils.is_telescope_open() then
-                smart_splits.move_cursor_right()
+                require("smart-splits").move_cursor_right()
               else
                 cycle.next()
               end
@@ -316,6 +301,8 @@ return {
           },
           ["<C-y>"] = {
             function()
+              local telescope_global_state = require "telescope.state"
+              local telescope_layout = require "telescope.actions.layout"
               local prompt_bufnrs = telescope_global_state.get_existing_prompt_bufnrs()
               if #prompt_bufnrs == 0 then
                 notify "Failed telescope toggle preview. Telescope open?"
@@ -332,19 +319,19 @@ return {
             desc = "esc to exit term in term mode",
           },
           ["<C-h>"] = {
-            function() smart_splits.move_cursor_left() end,
+            function() require("smart-splits").move_cursor_left() end,
             desc = "Move to left split",
           },
           ["<C-j>"] = {
-            function() smart_splits.move_cursor_down() end,
+            function() require("smart-splits").move_cursor_down() end,
             desc = "Move to below split",
           },
           ["<C-k>"] = {
-            function() smart_splits.move_cursor_up() end,
+            function() require("smart-splits").move_cursor_up() end,
             desc = "Move to above split",
           },
           ["<C-l>"] = {
-            function() smart_splits.move_cursor_right() end,
+            function() require("smart-splits").move_cursor_right() end,
             desc = "Move to right split",
           },
         },
@@ -365,12 +352,6 @@ return {
             desc = "Declaration of current symbol",
             cond = "textDocument/declaration",
           },
-          -- ["<Leader>D"] = {
-          --   function()
-          --     vim.lsp.buf.type_definition()
-          --   end,
-          --   desc = "Go to type definition"
-          -- },
         },
       },
     },

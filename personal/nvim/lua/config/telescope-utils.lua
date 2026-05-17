@@ -1,6 +1,6 @@
 local telescope_global_state = require "telescope.state"
 local conf = require("telescope.config").values
-local notify = require "notify"
+local notify = vim.notify
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
 local pickers = require "telescope.pickers"

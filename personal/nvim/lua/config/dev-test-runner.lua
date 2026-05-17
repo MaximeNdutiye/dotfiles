@@ -1,4 +1,4 @@
-local notify = require "notify"
+local notify = vim.notify
 
 local M = {}
 

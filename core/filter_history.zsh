@@ -1,14 +1,35 @@
-# Search in history based on a partially written command.
+# History search and key bindings. Native zsh only — no Oh My Zsh.
 
-# Share history across sessions (imports new entries from other shells on each prompt).
-# Note: SHARE_HISTORY implies INC_APPEND_HISTORY, so the setopt in
-# environment.zsh is harmless but redundant — kept for clarity.
-setopt SHARE_HISTORY
+bindkey -e  # emacs mode
 
-# Bind up arrow
-bindkey '\eOA' history-beginning-search-backward
-bindkey '\e[A' history-beginning-search-backward
+# Prefix-aware history search with arrow keys.
+autoload -U up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search
+bindkey '\eOA' up-line-or-beginning-search
+bindkey '\eOB' down-line-or-beginning-search
 
-# Bind down arrow
-bindkey '\eOB' history-beginning-search-forward
-bindkey '\e[B' history-beginning-search-forward
+# Common terminal navigation bindings.
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[3~' delete-char
+bindkey '^?' backward-delete-char
+bindkey ' ' magic-space
+
+# Edit the current command line in $VISUAL/$EDITOR.
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
+
+# Double-ESC to prepend sudo to the current command.
+sudo-command-line() {
+  [[ -z "$BUFFER" ]] && BUFFER="$(fc -ln -1)"
+  BUFFER="sudo $BUFFER"
+  zle end-of-line
+}
+zle -N sudo-command-line
+bindkey '\e\e' sudo-command-line

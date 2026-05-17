@@ -38,21 +38,21 @@ case $ZSH_HOST_OS in
 ;;
 esac
 
-# ── Zinit ────────────────────────────────────────────────────────────
+# ── Legacy plugin managers cleanup ──────────────────────────────────
+# This dotfiles setup loads small zsh plugins directly from ~/.local/share/zsh/plugins.
+# zinit/Antigen are no longer needed.
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-if [[ ! -d "$ZINIT_HOME" ]]; then
-  echo "\nInstalling zinit\n"
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+if [[ -d "$ZINIT_HOME" ]]; then
+  echo "\nRemoving old zinit installation\n"
+  rm -rf "${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
 fi
 
-# Remove old antigen if present
 if [[ -d "$HOME/antigen" ]]; then
   echo "\nRemoving old antigen installation\n"
   rm -rf "$HOME/antigen"
 fi
 
-# ── Git repos ────────────────────────────────────────────────────────
+# ── Git repos and zsh plugins ────────────────────────────────────────
 clone_git_repos() {
     local repos_file="$1"
     echo "\nCloning git repos from $repos_file\n"
@@ -104,4 +104,4 @@ case $ZSH_HOST_OS in
   ;;
 esac
 
-source ~/.zshrc
+echo "Installation complete. Open a new terminal or run: exec zsh"
